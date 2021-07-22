@@ -6,24 +6,55 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebaseAuth
 
 class InitialViewController: UIViewController {
-
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var logoImage: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.title = "outGo"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Medium", size: 25)!]
+        loginButton.alpha = 0
+        signupButton.alpha = 0
+        logoImage.alpha = 0
+        addUserListener()
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!]
+        loginButton.layer.borderWidth = 1
+        loginButton.layer.borderColor = UIColor.separator.cgColor
+        loginButton.layer.cornerRadius = 5
+        signupButton.layer.cornerRadius = 5
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "RedFade"), for: .default)
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func loginButton(_ sender: Any) {
+        let loginVC = LoginViewController(nibName: "LoginViewController", bundle: nil)
+        show(loginVC, sender: self)
     }
-    */
+    
+    @IBAction func signupButton(_ sender: Any) {
+        let signupVC = SignupViewController(nibName: "SignupViewController", bundle: nil)
+        show(signupVC, sender: self)
+    }
+    
+    func addUserListener() {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user == nil {
+                //not logged in
+                self.loginButton.alpha = 1
+                self.signupButton.alpha = 1
+                self.logoImage.alpha = 1
+                
+            } else {
+                // we are Logged In to Firebase
+                let vc = CustomTabBarViewController()
+                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(vc)
+            }
+        }
+    }
+    
 
 }

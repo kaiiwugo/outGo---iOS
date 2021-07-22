@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+
+class Fonts{
+    public static let aveBook = "avenir.book"
+}

@@ -1,22 +1,144 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController" customModule="outGo___iOS" customModuleProvider="target">
             <connections>
+                <outlet property="addButton" destination="kg2-iy-nyj" id="4ch-U3-6CW"/>
+                <outlet property="badgeImage" destination="ozE-Oz-fVQ" id="wOp-IE-b3b"/>
+                <outlet property="myCircleButton" destination="P8g-c5-7z9" id="o1M-DF-aIS"/>
+                <outlet property="profileImage" destination="vgJ-Aj-44f" id="XA0-dG-rvV"/>
+                <outlet property="settingsButton" destination="gr5-yd-0Sm" id="UrY-ZG-qkf"/>
+                <outlet property="userNameLabel" destination="te9-7z-6Fb" id="rdH-Ls-H5m"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P8g-c5-7z9">
+                    <rect key="frame" x="132" y="215" width="150" height="150"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="Gre-fS-dLd"/>
+                        <constraint firstAttribute="height" constant="150" id="f0U-8x-lkj"/>
+                    </constraints>
+                    <state key="normal" image="person.3.fill" catalog="system">
+                        <imageReference key="backgroundImage" image="RedFadeUp" renderingMode="original"/>
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="35"/>
+                    </state>
+                    <connections>
+                        <action selector="myCircleButton:" destination="-1" eventType="touchUpInside" id="UtK-0G-bX4"/>
+                    </connections>
+                </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="face.smiling.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="vgJ-Aj-44f">
+                    <rect key="frame" x="169.5" y="49.5" width="75" height="74"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="Z3w-eM-oJ2"/>
+                        <constraint firstAttribute="width" constant="75" id="xxA-FE-eVr"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="te9-7z-6Fb">
+                    <rect key="frame" x="20" y="134" width="374" height="25"/>
+                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="applelogo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ozE-Oz-fVQ">
+                    <rect key="frame" x="369" y="49.5" width="25" height="23.5"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="MSI-iy-IAb"/>
+                        <constraint firstAttribute="width" constant="25" id="wil-iz-pfL"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nNC-7y-TZR">
+                    <rect key="frame" x="5" y="164" width="404" height="1"/>
+                    <color key="backgroundColor" systemColor="separatorColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="hmQ-aT-s4g"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kg2-iy-nyj">
+                    <rect key="frame" x="292" y="315" width="75" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="B3I-Da-Trb"/>
+                        <constraint firstAttribute="width" constant="75" id="xqf-IH-ZXk"/>
+                    </constraints>
+                    <state key="normal" image="person.fill.badge.plus" catalog="system">
+                        <imageReference key="backgroundImage" image="RedFadeUp" renderingMode="original"/>
+                    </state>
+                    <connections>
+                        <action selector="addFriendButton:" destination="-1" eventType="touchUpInside" id="TzF-C1-9CP"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gr5-yd-0Sm">
+                    <rect key="frame" x="47" y="315" width="75" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="Q9T-Hz-Yko"/>
+                        <constraint firstAttribute="width" constant="75" id="kbb-lR-ePH"/>
+                    </constraints>
+                    <state key="normal" image="gearshape.2.fill" catalog="system">
+                        <imageReference key="backgroundImage" image="RedFadeUp" renderingMode="original"/>
+                    </state>
+                    <connections>
+                        <action selector="settingsButton:" destination="-1" eventType="touchUpInside" id="Hq0-lg-jWp"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qoe-wO-6XJ">
+                    <rect key="frame" x="0.0" y="410" width="414" height="452"/>
+                    <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                </view>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="nNC-7y-TZR" secondAttribute="trailing" constant="5" id="5yd-So-j95"/>
+                <constraint firstItem="Qoe-wO-6XJ" firstAttribute="top" secondItem="kg2-iy-nyj" secondAttribute="bottom" constant="20" id="9kl-y4-bRs"/>
+                <constraint firstItem="te9-7z-6Fb" firstAttribute="top" secondItem="vgJ-Aj-44f" secondAttribute="bottom" constant="10" id="AQ6-kx-BRk"/>
+                <constraint firstItem="Qoe-wO-6XJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Ezk-LP-Z04"/>
+                <constraint firstItem="nNC-7y-TZR" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="5" id="FgR-11-2sT"/>
+                <constraint firstItem="te9-7z-6Fb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Iw7-uW-c7e"/>
+                <constraint firstItem="kg2-iy-nyj" firstAttribute="top" secondItem="nNC-7y-TZR" secondAttribute="bottom" constant="150" id="Msb-fA-yY6"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Qoe-wO-6XJ" secondAttribute="bottom" id="PGA-eP-bty"/>
+                <constraint firstItem="P8g-c5-7z9" firstAttribute="top" secondItem="nNC-7y-TZR" secondAttribute="bottom" constant="50" id="PMq-ly-FtB"/>
+                <constraint firstItem="ozE-Oz-fVQ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="5" id="QDX-sZ-vaN"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Qoe-wO-6XJ" secondAttribute="trailing" id="QM4-1G-l2f"/>
+                <constraint firstItem="vgJ-Aj-44f" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="5" id="WcN-VI-617"/>
+                <constraint firstItem="gr5-yd-0Sm" firstAttribute="top" secondItem="nNC-7y-TZR" secondAttribute="bottom" constant="150" id="YfQ-M7-IPO"/>
+                <constraint firstItem="P8g-c5-7z9" firstAttribute="leading" secondItem="gr5-yd-0Sm" secondAttribute="trailing" constant="10" id="ZeU-JP-WBx"/>
+                <constraint firstItem="P8g-c5-7z9" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="dOb-Xh-PJ8"/>
+                <constraint firstItem="nNC-7y-TZR" firstAttribute="top" secondItem="te9-7z-6Fb" secondAttribute="bottom" constant="5" id="jMS-Gn-wnR"/>
+                <constraint firstItem="vgJ-Aj-44f" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="jdd-4Z-jQb"/>
+                <constraint firstItem="kg2-iy-nyj" firstAttribute="leading" secondItem="P8g-c5-7z9" secondAttribute="trailing" constant="10" id="qI1-ce-b93"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="te9-7z-6Fb" secondAttribute="trailing" constant="20" id="s6p-vW-jKq"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ozE-Oz-fVQ" secondAttribute="trailing" constant="20" id="uE4-3d-O2o"/>
+            </constraints>
+            <point key="canvasLocation" x="137.68115942028987" y="75.669642857142847"/>
         </view>
     </objects>
+    <resources>
+        <image name="RedFadeUp" width="120" height="120"/>
+        <image name="applelogo" catalog="system" width="103" height="128"/>
+        <image name="face.smiling.fill" catalog="system" width="128" height="121"/>
+        <image name="gearshape.2.fill" catalog="system" width="128" height="100"/>
+        <image name="person.3.fill" catalog="system" width="128" height="61"/>
+        <image name="person.fill.badge.plus" catalog="system" width="128" height="124"/>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="separatorColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
