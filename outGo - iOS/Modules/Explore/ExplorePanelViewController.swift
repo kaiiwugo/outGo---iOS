@@ -12,13 +12,13 @@ import CoreLocation
 
 class ExplorePanelViewController: UIViewController, CLLocationManagerDelegate {
     enum EventAmount: Int {
-        case small = 5
+        case featured = 3
         case medium = 10
-        case large = 20
+        case Max = 19
         }
     static let shared = ExplorePanelViewController()
-    static var sharedEvent = [Event]()
-    static var sharedPresetEvent = [Event]()
+    static var allEvents = [Event]()
+    var featuredEvents = [Event]()
     @IBOutlet weak var nearMeCollectionView: UICollectionView!
     @IBOutlet weak var featuredCollectionView: UICollectionView!
     @IBOutlet weak var nearMeLabel: UILabel!
@@ -26,71 +26,60 @@ class ExplorePanelViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(loadCollection(notification:)), name: NSNotification.Name(rawValue: "load"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadCollection(notification:)), name: NSNotification.Name(rawValue: "loadCollection"), object: nil)
         setUp()
         setupCollection()
-        self.loadAllEvents()
-        self.loadPresets()
-    
+        loadAllEvents()
     }
-    
+    //initial load of all events
     func loadAllEvents() {
         let locationManager = CLLocationManager()
         if let currentLocation = locationManager.location {
-            ExplorePanelHandler.shared.loadEvents(limit: EventAmount.medium.rawValue, userLocation: currentLocation) { result, removedID in
+            ExplorePanelHandler.shared.loadEvents(limit: EventAmount.Max.rawValue, userLocation: currentLocation) { result, removedID in
                 DispatchQueue.main.async {
-                    Self.sharedEvent = result
-                    Self.sharedEvent.append(contentsOf: Self.sharedPresetEvent)
+                    Self.allEvents = result
+                    self.updateNearMe(updatingLocation: currentLocation)
+                    self.updateFeatured(events: Self.allEvents)
                     self.nearMeCollectionView.reloadData()
+                    //updates map pins
                     MapViewController.shared.loadPins(event: result, removed: removedID)
-                    NotificationCenter.default.post(name: NSNotification.Name("loadPersonalPins"), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name("loadAllEvents"), object: nil)
                     MapViewController.shared.setEventRegions(event: result)
                 }
             }
         }
     }
     
-    //sets featured
-    func loadPresets(){
-        let locationManager = CLLocationManager()
-        if let currentLocation = locationManager.location {
-            ExplorePanelHandler.shared.loadPresets(limit: EventAmount.medium.rawValue, userLocation: currentLocation) { result in
-                DispatchQueue.main.async {
-                    Self.sharedPresetEvent = result
-                    Self.sharedEvent.append(contentsOf: result)
-                    //self.nearMeCollectionView.reloadData()
-                    self.featuredCollectionView.reloadData()
+    //Updates the "near me" collection
+    func updateNearMe(limit: Int = 50, updatingLocation: CLLocation){
+        if ExplorePanelViewController.allEvents.isEmpty == false {
+            DispatchQueue.main.async {
+                ExplorePanelHandler.shared.updateNearMe(limit: EventAmount.medium.rawValue, updatingLocation: updatingLocation, passedEvents: Self.allEvents) { result in
+                    Self.allEvents = result
                 }
             }
         }
     }
     
-    //Want to change use of static var here. Need somewhere to store list of all events, so don't have to load from firebase more than once
-    func updateNearMe(limit: Int = 50, updatingLocation: CLLocation){
-        if ExplorePanelViewController.sharedEvent.isEmpty == false {
-            DispatchQueue.main.async {
-                ExplorePanelHandler.shared.updateNearMe(limit: EventAmount.medium.rawValue, updatingLocation: updatingLocation, passedEvents: Self.sharedEvent) { result in
-                    Self.sharedEvent = result
-                }
-            }
-        }
+    func updateFeatured(events: [Event]){
+        var filtered = events.sorted(by: { $0.current.attendance > $1.current.attendance })
+        featuredEvents = Array(filtered.prefix(EventAmount.featured.rawValue))
+        featuredCollectionView.reloadData()
+    }
+    @objc func loadCollection(notification: NSNotification) {
+        featuredCollectionView.reloadData()
+        self.nearMeCollectionView.reloadData()
     }
     
     @IBAction func createButton(_ sender: Any) {
         let createVC = CreateEventViewController(nibName: "CreateEventViewController", bundle: nil)
         show(createVC, sender: self)
     }
-    
     func setUp(){
         createButton.layer.cornerRadius = 10
         createButton.tintColor = .label
         createButton.clipsToBounds = true
     }
-    
-    @objc func loadCollection(notification: NSNotification) {
-      self.nearMeCollectionView.reloadData()
-    }
-    
     func setupCollection(){
         //near me
         nearMeCollectionView.layer.cornerRadius = 10
@@ -121,30 +110,31 @@ class ExplorePanelViewController: UIViewController, CLLocationManagerDelegate {
 extension ExplorePanelViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == featuredCollectionView {
-            return Self.sharedPresetEvent.count
+            return featuredEvents.count
         }
-        return Self.sharedEvent.count
+        return Self.allEvents.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == nearMeCollectionView {
             let cell = nearMeCollectionView.dequeueReusableCell(withReuseIdentifier: ExplorePageCollectionViewCell.identifier, for: indexPath) as! ExplorePageCollectionViewCell
             let index = indexPath.row
-            let event = Self.sharedEvent[index]
+            let event = Self.allEvents[index]
             let eventImage = event.properties.eventImage
             let timePassed = Utilities.shared.getTimePassed(postDate: event.properties.eventDate as NSDate)
             let distance = event.current.distance
-            cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType))
+            cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType, friendEvent: event.friendEvent))
             return cell
         }
         else {
             let cell = featuredCollectionView.dequeueReusableCell(withReuseIdentifier: ExplorePageCollectionViewCell.identifier, for: indexPath) as! ExplorePageCollectionViewCell
             let index = indexPath.row
-            let event = Self.sharedPresetEvent[index]
-            let eventImage = UIImage(named: "\(event.properties.host)")!
-            let timePassed = ""
+            let event = featuredEvents[index]
+            let eventImage = event.properties.eventImage
+            let timePassed = Utilities.shared.getTimePassed(postDate: event.properties.eventDate as NSDate)
             let distance = event.current.distance
-            cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType))
+            let host = event.properties.host
+            cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType, friendEvent: event.friendEvent))
             return cell
         }
     }
@@ -153,13 +143,13 @@ extension ExplorePanelViewController: UICollectionViewDelegate, UICollectionView
         if collectionView == nearMeCollectionView {
             let index = indexPath.row
             let ViewEventeVC = ViewEventViewController(nibName: "ViewEventViewController", bundle: nil)
-            ViewEventeVC.event = Self.sharedEvent[index]
+            ViewEventeVC.event = Self.allEvents[index]
             show(ViewEventeVC, sender: self)
         }
         else {
             let index = indexPath.row
             let ViewEventeVC = ViewEventViewController(nibName: "ViewEventViewController", bundle: nil)
-            ViewEventeVC.event = Self.sharedPresetEvent[index]
+            ViewEventeVC.event = featuredEvents[index]
             show(ViewEventeVC, sender: self)
         }
     }

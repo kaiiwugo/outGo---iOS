@@ -12,20 +12,6 @@ class ExplorePanelHandler{
     var events = [Event]()
     static let shared = ExplorePanelHandler()
     
-    func loadPresets(limit: Int = 50, userLocation: CLLocation, completion: @escaping ([Event]) -> Void){
-        FirestoreService.shared.getPresetEvents { result in
-            if result.isEmpty == false {
-                self.events = result
-                let length = result.count - 1
-                for i in 0...length {
-                    self.events[i].current.distance = self.getDistance(userLocation: userLocation, eventLocation: result[i].properties.eventLocation)
-                    self.events[i].properties.eventImage = UIImage(named: self.events[i].properties.host)!
-                }
-                completion(self.events)
-            }
-        }
-    }
-    
     //returns the top n closest events
     func loadEvents(limit: Int = 50, userLocation: CLLocation, completion: @escaping ([Event], String) -> Void){
         FirestoreService.shared.getAllEvents { result, removedID in
@@ -35,7 +21,7 @@ class ExplorePanelHandler{
                 for i in 0...length {
                     self.events[i].current.distance = self.getDistance(userLocation: userLocation, eventLocation: result[i].properties.eventLocation)
                 }
-                let filteredEvents = self.events.sorted(by: { $0.current.viewDistance < $1.current.viewDistance })
+                let filteredEvents = self.events.sorted(by: { $0.current.distance < $1.current.distance })
                 filteredEvents.prefix(limit)
                 completion(Array(filteredEvents), removedID)
             }
@@ -53,10 +39,22 @@ class ExplorePanelHandler{
         completion(Array(filteredEvents))
     }
     
+    func updateDistance(location: CLLocation, completion: @escaping () -> Void){
+        if ExplorePanelViewController.allEvents.isEmpty == false {
+            let length = ExplorePanelViewController.allEvents.count - 1
+            for i in 0...length {
+                ExplorePanelViewController.allEvents[i].current.distance = self.getDistance(userLocation: location, eventLocation: ExplorePanelViewController.allEvents[i].properties.eventLocation)
+            }
+            NotificationCenter.default.post(name: NSNotification.Name("loadCollection"), object: nil)
+            completion()
+        }
+    }
+    
     func getDistance(userLocation: CLLocation, eventLocation: CLLocation) -> Double {
         var distance: Double
         distance = userLocation.distance(from: eventLocation) //Distance in meters
         distance = distance * 0.00062137 //To miles
         return round(10*distance)/10 //Rounded
     }
+    
 }

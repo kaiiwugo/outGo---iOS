@@ -23,24 +23,6 @@ class ViewEventHandler {
         ])
     }
     
-    func addLike(postID : String, collection: Collection, completion: @escaping () -> Void){
-        let eventDocument = db.collection(collection.rawValue).document(postID)
-        eventDocument.getDocument { (document, error) in
-            if let document = document, document.exists {
-                var result: Event?
-                do {
-                    result = try document.data(as: Event.self)
-                    let likes = result?.current.attendance
-                    eventDocument.setData(["current": ["likes": likes! + 1]], merge: true)
-                    completion()
-                }
-                catch {
-                    print(error)
-                }
-            }
-        }
-    }
-    
     func getAttendance(postID: String, collection: Collection, completion: @escaping (String, Int) -> Void){
         db.collection(collection.rawValue).document(postID).getDocument { (document, error) in
             if let document = document, document.exists {

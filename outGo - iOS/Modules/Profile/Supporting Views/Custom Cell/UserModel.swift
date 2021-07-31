@@ -8,14 +8,16 @@
 import Foundation
 import UIKit
 
-struct UserModel {
+struct UserSearchModel {
     let profilePicture: UIImage
     let userName: String
     let currentAction: String
+    let isFriend: Bool
     
-    init(profilePicture: UIImage, userName: String, currentAction: String) {
+    init(profilePicture: UIImage, userName: String, currentAction: String, isFriend: Bool) {
         self.profilePicture = profilePicture
         self.userName = userName
         self.currentAction = currentAction
+        self.isFriend = isFriend
     }
 }

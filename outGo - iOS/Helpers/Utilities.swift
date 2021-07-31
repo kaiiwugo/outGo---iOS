@@ -59,20 +59,25 @@ class Utilities {
             var placeMark: CLPlacemark!
             placeMark = placemarks?[0]
             var addressString = String()
-            completion("")
-            switch Address {
-            case .long: //Location Name+Address, City, State,
-                addressString = "\(placeMark.name!), \(placeMark.locality!), \(placeMark.administrativeArea!)"
-                completion(addressString)
-                break
-            case .standard: //Location Name+Address, City
-                addressString = "\(placeMark.name!), \(placeMark.locality!)"
-                completion(addressString)
-                break
-            case.short: //City
-                addressString = "\(placeMark.locality!)"
-                completion(addressString)
-                break
+            
+            do {
+                switch Address {
+                case .long: //Location Name+Address, City, State,
+                    try addressString = "\(placeMark.name!), \(placeMark.locality!), \(placeMark.administrativeArea!)"
+                    completion(addressString)
+                    break
+                case .standard: //Location Name+Address, City
+                    try addressString = "\(placeMark.name!), \(placeMark.locality!)"
+                    completion(addressString)
+                    break
+                case.short: //City
+                    try addressString = "\(placeMark.locality!)"
+                    completion(addressString)
+                    break
+                }
+            }
+            catch {
+                print(error)
             }
         })
     }

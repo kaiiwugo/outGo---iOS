@@ -14,6 +14,8 @@ class ViewEventViewController: UIViewController {
     
     @IBOutlet weak var popularityBar: UIProgressView!
     @IBOutlet weak var eventImage: UIImageView!
+    
+    @IBOutlet weak var eventHostButton: UIButton!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var locationMapview: MKMapView!
     @IBOutlet weak var endEventButton: UIButton!
@@ -29,6 +31,7 @@ class ViewEventViewController: UIViewController {
     let CELLBUFFER = 20
     var commentView = UIView()
     var commentTextField = UITextField()
+    let currentUser = UserDefaults.standard.string(forKey: "currentUser")
     //vars
     var event: Event?
     var comments = [Comments]()
@@ -47,6 +50,7 @@ class ViewEventViewController: UIViewController {
         //eventImage.layer.cornerRadius = 10
         eventImage.image = event?.properties.eventImage
         descriptionLabel.text = event?.properties.details
+        eventHostButton.setTitle(event?.properties.host, for: .normal) 
         DispatchQueue.main.async {
             do {
                 try Utilities.shared.getAddress(Address: .standard, location: (self.event?.properties.eventLocation)!) { result in
@@ -76,17 +80,10 @@ class ViewEventViewController: UIViewController {
     }
     
     func setNavigationBars(){
-        if event?.properties.eventType == "personal" {
-            self.title = Utilities.shared.getTimePassed(postDate: (event?.properties.eventDate)! as NSDate)
-        }
-        else {
-            self.title = "Now"
-        }
-
+        self.title = Utilities.shared.getTimePassed(postDate: (event?.properties.eventDate)! as NSDate)
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!]
         //Adds buttons
         self.tabBarController?.tabBar.isHidden = true
-        
     }
     
     func userIsHost(){
@@ -132,13 +129,8 @@ class ViewEventViewController: UIViewController {
     @objc func postComment(sender: UIButton!) {
         commentTextField.resignFirstResponder()
         DispatchQueue.main.async {
-            let newComment = Comments(commentText: self.commentTextField.text!, commentUser: "Jerry", commentTime: Date())
-            if self.event?.properties.eventType == "personal" {
+            let newComment = Comments(commentText: self.commentTextField.text!, commentUser: self.currentUser!, commentTime: Date())
                 ViewEventHandler.shared.postComment(comment: newComment, collection: .events, postID: (self.event?.properties.postID)!)
-            }
-            else {
-                ViewEventHandler.shared.postComment(comment: newComment, collection: .presets, postID: (self.event?.properties.postID)!)
-            }
             self.updateComments()
             self.commentTextField.text = nil
         }
@@ -169,7 +161,6 @@ class ViewEventViewController: UIViewController {
         FirestoreService.shared.deleteEvent(postID: (self.event?.properties.postID)!)
         self.navigationController?.popViewController(animated: true)
     }
-
     
     func getAttendance(){
         ViewEventHandler.shared.getAttendance(postID: (self.event?.properties.postID)!, collection: .events) { strResult, intResult in
@@ -178,7 +169,6 @@ class ViewEventViewController: UIViewController {
             self.popularityBar.setProgress(Float(popularity), animated: true)
         }
     }
-  //  if event?.properties.eventType == "personal" {
     
 }
 

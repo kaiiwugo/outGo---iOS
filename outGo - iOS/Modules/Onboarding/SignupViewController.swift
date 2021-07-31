@@ -13,7 +13,7 @@ import FirebaseFirestore
 class SignupViewController: UIViewController {
     enum Collection: String {
         case properties = "properties"
-        case circle = "circle"
+        case friends = "friends"
     }
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -25,6 +25,9 @@ class SignupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         self.title = "outGo"
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!]
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "RedFade"), for: .default)
@@ -48,7 +51,7 @@ class SignupViewController: UIViewController {
                     self.showError("There was a problem creating your account")
                 }
                 else {
-                    self.db.collection("Users").document(result!.user.uid).collection(Collection.properties.rawValue).document(Collection.properties.rawValue).setData(["userName":userName, "email":email, "UID":result!.user.uid]) { (error) in
+                    self.db.collection("Users").document(userName).setData(["userName":userName, "email":email, "userID":result!.user.uid, "group": ["groupName": "", "groupID": ""]]) { (error) in
                         //if theres an error message, show it
                         if error != nil{
                             self.showError("Error saving user data")
@@ -57,6 +60,8 @@ class SignupViewController: UIViewController {
                 }
             }
             UserDefaults.standard.set(userName, forKey: "currentUser")
+            UserDefaults.standard.set("", forKey: "groupName")
+            UserDefaults.standard.set("", forKey: "groupID")
             //Retrieve: UserDefaults.standard.string(forKey: "currentUser")
             logIn()
         }

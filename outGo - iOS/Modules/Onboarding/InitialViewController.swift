@@ -18,6 +18,8 @@ class InitialViewController: UIViewController {
         super.viewDidLoad()
         self.title = "outGo"
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Medium", size: 25)!]
+        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                navigationItem.backBarButtonItem = backBarButtonItem
         loginButton.alpha = 0
         signupButton.alpha = 0
         logoImage.alpha = 0
@@ -55,6 +57,4 @@ class InitialViewController: UIViewController {
             }
         }
     }
-    
-
 }

@@ -13,7 +13,9 @@
             <connections>
                 <outlet property="addButton" destination="kg2-iy-nyj" id="4ch-U3-6CW"/>
                 <outlet property="badgeImage" destination="ozE-Oz-fVQ" id="wOp-IE-b3b"/>
+                <outlet property="badgeView" destination="8mv-DM-gUi" id="ntO-3q-vh5"/>
                 <outlet property="myCircleButton" destination="P8g-c5-7z9" id="o1M-DF-aIS"/>
+                <outlet property="myEventsCollectionView" destination="afO-0p-vmn" id="eI8-mk-ZbE"/>
                 <outlet property="profileImage" destination="vgJ-Aj-44f" id="XA0-dG-rvV"/>
                 <outlet property="settingsButton" destination="gr5-yd-0Sm" id="UrY-ZG-qkf"/>
                 <outlet property="userNameLabel" destination="te9-7z-6Fb" id="rdH-Ls-H5m"/>
@@ -52,13 +54,6 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="applelogo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ozE-Oz-fVQ">
-                    <rect key="frame" x="369" y="49.5" width="25" height="23.5"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="25" id="MSI-iy-IAb"/>
-                        <constraint firstAttribute="width" constant="25" id="wil-iz-pfL"/>
-                    </constraints>
-                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nNC-7y-TZR">
                     <rect key="frame" x="5" y="164" width="404" height="1"/>
                     <color key="backgroundColor" systemColor="separatorColor"/>
@@ -85,7 +80,7 @@
                         <constraint firstAttribute="height" constant="75" id="Q9T-Hz-Yko"/>
                         <constraint firstAttribute="width" constant="75" id="kbb-lR-ePH"/>
                     </constraints>
-                    <state key="normal" image="gearshape.2.fill" catalog="system">
+                    <state key="normal" image="shield.fill" catalog="system">
                         <imageReference key="backgroundImage" image="RedFadeUp" renderingMode="original"/>
                     </state>
                     <connections>
@@ -93,44 +88,92 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qoe-wO-6XJ">
-                    <rect key="frame" x="0.0" y="410" width="414" height="452"/>
+                    <rect key="frame" x="0.0" y="400" width="414" height="462"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Events" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4N1-oe-41i">
+                            <rect key="frame" x="20" y="10" width="394" height="27.5"/>
+                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="afO-0p-vmn">
+                            <rect key="frame" x="5" y="47.5" width="404" height="200"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="200" id="I4p-fU-cY1"/>
+                            </constraints>
+                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rPf-Y6-sFd">
+                                <size key="itemSize" width="128" height="128"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
+                    </subviews>
                     <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="afO-0p-vmn" secondAttribute="trailing" constant="5" id="6AG-J0-Xgr"/>
+                        <constraint firstItem="afO-0p-vmn" firstAttribute="leading" secondItem="Qoe-wO-6XJ" secondAttribute="leading" constant="5" id="8sy-14-7Gz"/>
+                        <constraint firstItem="afO-0p-vmn" firstAttribute="top" secondItem="4N1-oe-41i" secondAttribute="bottom" constant="10" id="geQ-Eh-No4"/>
+                        <constraint firstAttribute="trailing" secondItem="4N1-oe-41i" secondAttribute="trailing" id="jTZ-3p-rK6"/>
+                        <constraint firstItem="4N1-oe-41i" firstAttribute="top" secondItem="Qoe-wO-6XJ" secondAttribute="top" constant="10" id="jgG-qU-JN9"/>
+                        <constraint firstItem="4N1-oe-41i" firstAttribute="leading" secondItem="Qoe-wO-6XJ" secondAttribute="leading" constant="20" id="mLU-sw-o8E"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8mv-DM-gUi">
+                    <rect key="frame" x="359" y="54" width="35" height="35"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="smallTempleLogo " translatesAutoresizingMaskIntoConstraints="NO" id="ozE-Oz-fVQ">
+                            <rect key="frame" x="7.5" y="7.5" width="20" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="MSI-iy-IAb"/>
+                                <constraint firstAttribute="width" constant="20" id="wil-iz-pfL"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="8r0-1K-QqD"/>
+                        <constraint firstAttribute="height" constant="35" id="PTG-Bu-iRZ"/>
+                        <constraint firstItem="ozE-Oz-fVQ" firstAttribute="centerY" secondItem="8mv-DM-gUi" secondAttribute="centerY" id="oCD-lb-PJw"/>
+                        <constraint firstItem="ozE-Oz-fVQ" firstAttribute="centerX" secondItem="8mv-DM-gUi" secondAttribute="centerX" id="sqU-6U-4yp"/>
+                    </constraints>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="nNC-7y-TZR" secondAttribute="trailing" constant="5" id="5yd-So-j95"/>
-                <constraint firstItem="Qoe-wO-6XJ" firstAttribute="top" secondItem="kg2-iy-nyj" secondAttribute="bottom" constant="20" id="9kl-y4-bRs"/>
                 <constraint firstItem="te9-7z-6Fb" firstAttribute="top" secondItem="vgJ-Aj-44f" secondAttribute="bottom" constant="10" id="AQ6-kx-BRk"/>
                 <constraint firstItem="Qoe-wO-6XJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Ezk-LP-Z04"/>
                 <constraint firstItem="nNC-7y-TZR" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="5" id="FgR-11-2sT"/>
                 <constraint firstItem="te9-7z-6Fb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Iw7-uW-c7e"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="8mv-DM-gUi" secondAttribute="trailing" constant="20" id="JuL-Me-fvR"/>
                 <constraint firstItem="kg2-iy-nyj" firstAttribute="top" secondItem="nNC-7y-TZR" secondAttribute="bottom" constant="150" id="Msb-fA-yY6"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Qoe-wO-6XJ" secondAttribute="bottom" id="PGA-eP-bty"/>
                 <constraint firstItem="P8g-c5-7z9" firstAttribute="top" secondItem="nNC-7y-TZR" secondAttribute="bottom" constant="50" id="PMq-ly-FtB"/>
-                <constraint firstItem="ozE-Oz-fVQ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="5" id="QDX-sZ-vaN"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Qoe-wO-6XJ" secondAttribute="trailing" id="QM4-1G-l2f"/>
                 <constraint firstItem="vgJ-Aj-44f" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="5" id="WcN-VI-617"/>
                 <constraint firstItem="gr5-yd-0Sm" firstAttribute="top" secondItem="nNC-7y-TZR" secondAttribute="bottom" constant="150" id="YfQ-M7-IPO"/>
+                <constraint firstItem="Qoe-wO-6XJ" firstAttribute="top" secondItem="kg2-iy-nyj" secondAttribute="bottom" constant="10" id="ZES-5J-0wP"/>
                 <constraint firstItem="P8g-c5-7z9" firstAttribute="leading" secondItem="gr5-yd-0Sm" secondAttribute="trailing" constant="10" id="ZeU-JP-WBx"/>
                 <constraint firstItem="P8g-c5-7z9" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="dOb-Xh-PJ8"/>
                 <constraint firstItem="nNC-7y-TZR" firstAttribute="top" secondItem="te9-7z-6Fb" secondAttribute="bottom" constant="5" id="jMS-Gn-wnR"/>
                 <constraint firstItem="vgJ-Aj-44f" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="jdd-4Z-jQb"/>
                 <constraint firstItem="kg2-iy-nyj" firstAttribute="leading" secondItem="P8g-c5-7z9" secondAttribute="trailing" constant="10" id="qI1-ce-b93"/>
+                <constraint firstItem="8mv-DM-gUi" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="r9r-DW-f4Y"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="te9-7z-6Fb" secondAttribute="trailing" constant="20" id="s6p-vW-jKq"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ozE-Oz-fVQ" secondAttribute="trailing" constant="20" id="uE4-3d-O2o"/>
             </constraints>
             <point key="canvasLocation" x="137.68115942028987" y="75.669642857142847"/>
         </view>
     </objects>
     <resources>
         <image name="RedFadeUp" width="120" height="120"/>
-        <image name="applelogo" catalog="system" width="103" height="128"/>
         <image name="face.smiling.fill" catalog="system" width="128" height="121"/>
-        <image name="gearshape.2.fill" catalog="system" width="128" height="100"/>
         <image name="person.3.fill" catalog="system" width="128" height="61"/>
         <image name="person.fill.badge.plus" catalog="system" width="128" height="124"/>
+        <image name="shield.fill" catalog="system" width="128" height="121"/>
+        <image name="smallTempleLogo " width="100" height="115"/>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

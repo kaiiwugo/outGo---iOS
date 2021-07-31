@@ -18,6 +18,9 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         self.title = "outGo"
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!]
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "RedFade"), for: .default)
@@ -47,19 +50,21 @@ class LoginViewController: UIViewController {
         let db = Firestore.firestore()
         let authID = Auth.auth().currentUser
         let userID = String(authID!.uid)
-        let userDocument = db.collection("Users").document(userID).collection("properties").document("properties")
-        
-        userDocument.getDocument { (document, error) in
-            if error == nil && document != nil {
-                let userName = document?.get("userName") as! String
-                UserDefaults.standard.set(userName, forKey: "currentUser")
+        let userDocument = db.collection("Users").whereField("userID", isEqualTo: userID)
+        userDocument.getDocuments(completion: { snapshot, err in
+            let docs = snapshot?.documents
+            docs?.forEach({ document in
+                let userName = document.get("userName") as! String
+                FriendingHandler.shared.getUser(friendName: userName) { user in
+                    let groupName = user.group.groupName
+                    let groupID = user.group.groupID
+                    UserDefaults.standard.set(userName, forKey: "currentUser")
+                    UserDefaults.standard.set(groupName, forKey: "groupName")
+                    UserDefaults.standard.set(groupID, forKey: "groupID")
+                }
                 self.logIn()
-            }
-            else {
-                self.showError("Error")
-                return
-            }
-        }
+            })
+        })
     }
         
     func validateFields() -> String? {

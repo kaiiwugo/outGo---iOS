@@ -12,6 +12,7 @@ class ExplorePageCollectionViewCell: UICollectionViewCell {
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var distance: UIButton!
     @IBOutlet var eventType: UIImageView!
+    @IBOutlet var friendImage: UIImageView!
     static let identifier = "ExplorePageCollectionViewCell"
 
     override func awakeFromNib() {
@@ -22,7 +23,6 @@ class ExplorePageCollectionViewCell: UICollectionViewCell {
         distance.tintColor = .black
         self.eventImage.contentMode = .scaleAspectFill
         eventImage.layer.cornerRadius = 10
-        
         eventType.layer.cornerRadius = eventImage.layer.cornerRadius
     }
     
@@ -31,14 +31,21 @@ class ExplorePageCollectionViewCell: UICollectionViewCell {
         self.timeLabel.text = model.timeSincePost
         self.distance.setTitle("\(model.distance) mi", for: .normal)
         
+        switch model.friendEvent {
+        case true:
+            friendImage.alpha = 1
+        default:
+            friendImage.alpha = 0
+        }
+        
         switch model.eventType {
         case "social":
-            self.eventType.image = UIImage(named: "BlueFadeUp")
+            self.eventType.image = UIImage(named: "RedFadeUp")
             break
         case "community":
             self.eventType.image = UIImage(named: "GreenFadeUp")
             break
-        case "Active":
+        case "active":
             self.eventType.image = UIImage(named: "YellowFadeUp")
             break
         default:

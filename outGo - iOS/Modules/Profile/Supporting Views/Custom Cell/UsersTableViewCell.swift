@@ -11,36 +11,71 @@ class UsersTableViewCell: UITableViewCell {
     @IBOutlet var profilePicture: UIImageView!
     @IBOutlet var userName: UILabel!
     static let identifier = "UsersTableViewCell"
-    @IBOutlet var accecptButton: UIButton!
+    @IBOutlet var userActionButton: UIButton!
     @IBOutlet var rejectButton: UIButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        accecptButton.alpha = 0
+        userActionButton.alpha = 0
         rejectButton.alpha = 0
-        accecptButton.clipsToBounds = true
-        accecptButton.layer.cornerRadius = 5
-
+        userActionButton.clipsToBounds = true
+        userActionButton.layer.cornerRadius = 5
+        userActionButton.layer.borderWidth = 2
+        userActionButton.layer.borderColor = UIColor.separator.cgColor
     }
     
-    public func configure(with model: UserModel){
+    public func configure(with model: UserSearchModel){
         self.profilePicture.image = model.profilePicture
         self.userName.text = model.userName
         
+        switch model.isFriend {
+        case true:
+            userActionButton.alpha = 0
+            break
+        case false:
+            userActionButton.alpha = 1
+            break
+        }
         switch model.currentAction {
         case "add":
-            accecptButton.alpha = 1
-            accecptButton.setTitle("add", for: .normal)
+            userActionButton.setTitle("add", for: .normal)
             break
-        case "request":
-            accecptButton.alpha = 1
+        case "accecpt":
+            userActionButton.setTitle("accecpt", for: .normal)
+            userActionButton.alpha = 1
             rejectButton.alpha = 1
+            break
+        case "circle":
+            userActionButton.setTitle("remove", for: .normal)
+            userActionButton.alpha = 1
             break
         default:
             break
         }
         
     }
+    
+    @IBAction func userActionButton(_ sender: Any) {
+        if userActionButton.titleLabel?.text == "remove" {
+            FriendingHandler.shared.removeFriend(friendName: userName.text!)
+            userActionButton.isEnabled = false
+            userActionButton.setTitle("", for: .normal)
+            userActionButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+        }
+        else {
+            FriendingHandler.shared.addFriend(friendName: userName.text!)
+            userActionButton.isEnabled = false
+            userActionButton.setTitle("", for: .normal)
+            userActionButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+        }
+        
+    }
+    @IBAction func rejectButton(_ sender: Any) {
+        FriendingHandler.shared.rejectUser(userName: userName.text!)
+        contentView.isUserInteractionEnabled = false
+        contentView.alpha = 0.25
+    }
+    
     
     static func nib() -> UINib {
         return UINib(nibName: "UsersTableViewCell", bundle: nil)

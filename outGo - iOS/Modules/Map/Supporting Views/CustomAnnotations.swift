@@ -18,11 +18,13 @@ class CustomPointAnnotation: MKPointAnnotation {
     func setImage(eventType: String) -> UIImage{
         switch eventType {
         case "social":
-            return UIImage(named: "BluePin")!
+            return UIImage(named: "RedPin")!
         case "community":
             return UIImage(named: "GreenPin")!
         case "active":
             return UIImage(named: "YellowPin")!
+        case "featured":
+            return UIImage(named: "BluePin")!
         default:
             return UIImage(named: "RedPin")!
         }

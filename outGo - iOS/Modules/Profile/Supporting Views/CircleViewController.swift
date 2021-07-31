@@ -17,6 +17,9 @@ class CircleViewController: UIViewController {
         super.viewDidLoad()
         setTable()
         setNavigation()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         loadFriends()
     }
     
@@ -34,6 +37,7 @@ class CircleViewController: UIViewController {
     
     func loadFriends(){
         DispatchQueue.main.async {
+            self.friend = []
             FirestoreService.shared.getFriends { result in
                 result.forEach { user in
                     self.friend.append(user.userName)
@@ -54,14 +58,15 @@ extension CircleViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = friendsTableView.dequeueReusableCell(withIdentifier: UsersTableViewCell.identifier, for: indexPath) as! UsersTableViewCell
-        let userName = friend[indexPath.row] ?? "willy"
+        cell.selectionStyle = .none
+        let userName = friend[indexPath.row]
         let image = UIImage(systemName: "face.smiling.fill")!
-        cell.configure(with: UserModel(profilePicture: image, userName: userName, currentAction: "circle"))
-        
-
+        cell.configure(with: UserSearchModel(profilePicture: image, userName: userName, currentAction: "circle", isFriend: true))
         return cell
     }
-    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.view.endEditing(false)
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         80
     }

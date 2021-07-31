@@ -16,6 +16,7 @@ struct Event: Codable {
     var coordinates: Coordinates
     var current: Current
     var comments: [Comments]
+    var friendEvent = Bool()
     
     enum CodingKeys: String, CodingKey {
         case properties = "properties"

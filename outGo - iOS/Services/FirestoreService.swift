@@ -14,7 +14,7 @@ import CoreLocation
 class FirestoreService {
     enum Collection: String {
         case events = "All Events"
-        case presets = "Preset Events"
+        case users = "Users"
             }
     let currentUser = UserDefaults.standard.string(forKey: "currentUser")
     let db = Firestore.firestore()
@@ -59,6 +59,9 @@ class FirestoreService {
                                         else {
                                             result?.properties.eventImage = UIImage(data: data!) ?? UIImage(named: "RedPin")!
                                         }
+                                        if userFriend.contains((result?.properties.host)!) {
+                                            result?.friendEvent = true
+                                        }
                                         if let result = result {
                                             events.append(result)
                                         }
@@ -77,8 +80,8 @@ class FirestoreService {
                                 let removedID = diff.document.documentID
                                 let index: Int = events.firstIndex { event in
                                     event.properties.postID == removedID
-                                } ?? 0
-                                if events[index] != nil {
+                                } ?? -1
+                                if index != -1 {
                                     events.remove(at: index)
                                     completion(events, removedID)
                                 }
@@ -108,24 +111,6 @@ class FirestoreService {
         }
     }
     
-    func getEventLikes(postID: String, collection: Collection, completion: @escaping (Int) -> Void){
-        db.collection(collection.rawValue).document(postID).getDocument { (document, error) in
-            if let document = document, document.exists {
-                var result: Event?
-                do {
-                    result = try document.data(as: Event.self)
-                    let likes = result?.current.attendance
-                    if let result = result {
-                        completion(likes!)
-                    }
-                }
-                catch {
-                    print(error)
-                }
-            }
-        }
-    }
-    
     func deleteEvent(postID : String) {
         db.collection(Collection.events.rawValue).document(postID).delete()
     }
@@ -138,7 +123,7 @@ class FirestoreService {
         }
         else {
             let userID = String(authID!.uid)
-            let userFriends = self.db.collection("Users").document(userID).collection("friends").getDocuments { snapshot, error in
+            let userFriends = self.db.collection("Circles").document(currentUser!).collection("Friends").getDocuments { snapshot, error in
                 if error == nil && snapshot != nil {
                     for document in snapshot!.documents {
                         var result: UserProfile?
@@ -157,49 +142,5 @@ class FirestoreService {
             }
         }
     }
-    
-    func getPresetEvents(completion: @escaping ([Event]) -> Void){
-        var events = [Event]()
-        self.db.collection(Collection.presets.rawValue).getDocuments { (querySnapshot, err) in
-            if err == nil && querySnapshot != nil {
-                DispatchQueue.global().async {
-                for document in querySnapshot!.documents {
-                        var result: Event?
-                        do {
-                            result = try document.data(as: Event.self)
-                            //get coordinates
-                            let lat = result?.coordinates.latitude
-                            let long = result?.coordinates.longitude
-                            result?.properties.eventLocation = CLLocation(latitude: lat!, longitude: long!)
-                            result?.properties.eventLocation2d = CLLocationCoordinate2D(latitude: lat!, longitude: long!)
-                            //gets image
-                            let eventUrl = result!.properties.imageURL
-                            if eventUrl != "" {
-                                let url = URL(string: result!.properties.imageURL)
-                                let data = try? Data(contentsOf: url!)
-                                if data == nil {
-                                    result?.properties.eventImage = UIImage(systemName: "wifi.slash")!
-                                }
-                                else {
-                                    result?.properties.eventImage = UIImage(data: data!) ?? UIImage(systemName: "wifi.slash")!
-                                }
-                            }
-                            else {
-                                let host = result?.properties.host
-                                result?.properties.eventImage = UIImage(named: host!)!
-                            }
-                            
-                            if let result = result {
-                                events.append(result)
-                            }
-                        }
-                        catch {
-                            print(error)
-                        }
-                    }
-                completion(events)
-                }
-            }
-        }
-    }
+
 }
