@@ -1,0 +1,6 @@
+framework module Pods_outGo___iOS_outGo___iOSUITests {
+  umbrella header "Pods-outGo - iOS-outGo - iOSUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

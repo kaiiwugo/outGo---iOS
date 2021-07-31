@@ -1,0 +1,6 @@
+framework module Pods_outGo___iOS {
+  umbrella header "Pods-outGo - iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
