@@ -54,7 +54,7 @@ class ProfileHandler {
                                         result?.properties.eventImage = UIImage(data: data!) ?? UIImage(named: "RedPin")!
                                     }
                                     if result?.properties.host != user {
-                                        result?.friendEvent = true
+                                        result?.visability.friendEvent = true
                                     }
                                     if let result = result {
                                         if result.properties.host == user {

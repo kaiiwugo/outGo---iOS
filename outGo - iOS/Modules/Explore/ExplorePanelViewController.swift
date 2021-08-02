@@ -123,7 +123,7 @@ extension ExplorePanelViewController: UICollectionViewDelegate, UICollectionView
             let eventImage = event.properties.eventImage
             let timePassed = Utilities.shared.getTimePassed(postDate: event.properties.eventDate as NSDate)
             let distance = event.current.distance
-            cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType, friendEvent: event.friendEvent))
+            cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType, friendEvent: event.visability.friendEvent))
             return cell
         }
         else {
@@ -134,7 +134,7 @@ extension ExplorePanelViewController: UICollectionViewDelegate, UICollectionView
             let timePassed = Utilities.shared.getTimePassed(postDate: event.properties.eventDate as NSDate)
             let distance = event.current.distance
             let host = event.properties.host
-            cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType, friendEvent: event.friendEvent))
+            cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType, friendEvent: event.visability.friendEvent))
             return cell
         }
     }

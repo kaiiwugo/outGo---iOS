@@ -27,6 +27,7 @@ class AddFriendViewController: UIViewController {
     func setNavigation(){
         self.title = "Circle"
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!]
+        requestsButton.alpha = 0.25
         requestsButton.isEnabled = false
     }
     func setTable(){
@@ -50,6 +51,7 @@ class AddFriendViewController: UIViewController {
         FriendingHandler.shared.allRequestCheck { result in
             if result.isEmpty == false {
                 self.requestedUsers = result
+                self.requestsButton.alpha = 1
                 self.requestsButton.isEnabled = true
             }
         }

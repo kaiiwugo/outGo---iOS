@@ -16,13 +16,14 @@ struct Event: Codable {
     var coordinates: Coordinates
     var current: Current
     var comments: [Comments]
-    var friendEvent = Bool()
+    var visability: Visability
     
     enum CodingKeys: String, CodingKey {
         case properties = "properties"
         case coordinates = "coordinates"
         case current = "current"
         case comments = "comments"
+        case visability = "visability"
     }
 }
 
@@ -80,6 +81,17 @@ struct Comments: Codable {
         case commentText = "commentText"
         case commentUser = "commentUser"
         case commentTime = "commentTime"
+    }
+}
+
+struct Visability: Codable {
+    var isPublic: Bool
+    var groupEvent: Bool
+    var friendEvent = Bool()
+    
+    enum CodingKeys: String, CodingKey {
+        case isPublic = "isPublic"
+        case groupEvent = "groupEvent"
     }
 }
 

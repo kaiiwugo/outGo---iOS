@@ -22,11 +22,13 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     let locationManager = CLLocationManager()
     var imageData = Data()
     var eventType = "social"
+    var groupEvent = false
     //outlets
     @IBOutlet weak var imageButton: UIButton!
     @IBOutlet weak var imageStackView: UIStackView!
     @IBOutlet weak var detailsTextView: UITextView!
     @IBOutlet weak var publicSwitch: UISwitch!
+    @IBOutlet weak var groupButtonView: UIView!
     @IBOutlet weak var publicLabel: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var adressLabel: UILabel!
@@ -51,6 +53,14 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     }
     
     func setgroup(){
+        if groupName == "" {
+            groupButtonView.alpha = 0
+        }
+        groupButtonView.alpha = 0.25
+        groupButtonView.layer.cornerRadius = groupButtonView.frame.width/2
+        groupButtonView.layer.borderColor = UIColor.separator.cgColor
+        groupButtonView.layer.borderWidth = 2
+        groupButtonView.backgroundColor = UIColor.secondarySystemBackground
     }
 
     func setupCarousel(){
@@ -99,8 +109,8 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         let eventDetails = detailsTextView.text
         let eventDate = datePicker.date
         let host = currentUser
-        var imageURL = ""
         var isActive = true
+        let groupEvent = false
         let eventLatitude = self.mapView.centerCoordinate.latitude
         let eventLongitude = self.mapView.centerCoordinate.longitude
         if round(Date().timeIntervalSince(datePicker.date as Date)) < 0 {
@@ -109,29 +119,39 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         DispatchQueue.main.async {
             CreateHandler.shared.getImageURL(imageData: self.imageData ?? Data(), date: eventDate) { result in
                 let eventDocument = self.db.collection(Collection.all.rawValue).document()//.collection(Collection.properties.rawValue).document()
-                eventDocument.setData(["comments": [], "coordinates": ["latitude": eventLatitude, "longitude": eventLongitude], "properties": ["details": eventDetails, "host": host, "imageURL": result, "eventDate": eventDate, "postID": eventDocument.documentID, "eventType": self.eventType], "current": ["distance": 0, "isPublic": self.publicSwitch.isOn, "attendance": 0, "viewDistance": 0, "isActive": isActive]])
+                eventDocument.setData(["comments": [], "coordinates": ["latitude": eventLatitude, "longitude": eventLongitude], "properties": ["details": eventDetails, "host": host, "imageURL": result, "eventDate": eventDate, "postID": eventDocument.documentID, "eventType": self.eventType], "current": ["distance": 0, "isPublic": self.publicSwitch.isOn, "attendance": 0, "viewDistance": 0, "isActive": isActive], "visability": ["isPublic": self.publicSwitch.isOn, "groupEvent": groupEvent]])
             }
         }
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func locationButton(_ sender: Any) {
-        mapView.isUserInteractionEnabled = true
+    @IBAction func groupButton(_ sender: Any) {
+        if groupEvent == false {
+            groupEvent = true
+            groupButtonView.alpha = 1
+            publicSwitch.isEnabled = false
+            publicLabel.text = "Temple"
+        }
+        else {
+            publicLabel.text = "Public"
+            groupButtonView.alpha = 0.25
+            groupEvent = false
+            publicSwitch.isEnabled = true
+        }
     }
+    
     
     @IBAction func imageButton(_ sender: Any) {
         takePicture()
     }
     
     func textViewDidBeginEditing(_ textView: UITextView){
-        print("called")
         if detailsTextView.text == "add details" && detailsTextView.isFirstResponder {
             detailsTextView.text = nil
             detailsTextView.textColor = .white
         }
     }
-    
     func textViewDidEndEditing (textView: UITextView) {
         if detailsTextView.text.isEmpty || detailsTextView.text == "" {
             detailsTextView.textColor = .lightGray

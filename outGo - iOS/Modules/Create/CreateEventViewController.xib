@@ -17,6 +17,7 @@
                 <outlet property="detailsTextView" destination="Ote-02-hmh" id="Sne-lu-zgR"/>
                 <outlet property="eventTypeCarousel" destination="CWT-0X-B7e" id="o06-al-CmY"/>
                 <outlet property="eventTypeLabel" destination="o7t-0J-lf3" id="pWH-CE-opi"/>
+                <outlet property="groupButtonView" destination="P29-wh-uuD" id="meu-dh-pYH"/>
                 <outlet property="imageButton" destination="bK5-1b-h0W" id="CpG-7q-svD"/>
                 <outlet property="imageStackView" destination="0DU-he-WLy" id="dj9-rJ-dPo"/>
                 <outlet property="mapView" destination="C26-KY-ct9" id="kpg-Nl-QCo"/>
@@ -86,11 +87,35 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P29-wh-uuD">
+                            <rect key="frame" x="250" y="5" width="50" height="50"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wbp-Lh-30b">
+                                    <rect key="frame" x="10" y="10" width="30" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="30" id="Iud-Ah-pzy"/>
+                                        <constraint firstAttribute="height" constant="30" id="ON1-jZ-qPb"/>
+                                    </constraints>
+                                    <state key="normal" image="smallTempleLogo "/>
+                                    <connections>
+                                        <action selector="groupButton:" destination="-1" eventType="touchUpInside" id="Zkv-BI-kcw"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="7se-NO-my1"/>
+                                <constraint firstItem="Wbp-Lh-30b" firstAttribute="centerX" secondItem="P29-wh-uuD" secondAttribute="centerX" id="h6l-tG-ZAb"/>
+                                <constraint firstItem="Wbp-Lh-30b" firstAttribute="centerY" secondItem="P29-wh-uuD" secondAttribute="centerY" id="mWr-70-R68"/>
+                                <constraint firstAttribute="width" constant="50" id="vpz-Oq-Ih9"/>
+                            </constraints>
+                        </view>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YtE-EL-U5O">
                             <rect key="frame" x="325" y="14.5" width="51" height="31"/>
                         </switch>
                     </subviews>
                     <constraints>
+                        <constraint firstItem="YtE-EL-U5O" firstAttribute="leading" secondItem="P29-wh-uuD" secondAttribute="trailing" constant="25" id="jnf-0j-Xqz"/>
                         <constraint firstAttribute="height" constant="60" id="t0e-Sv-rSK"/>
                     </constraints>
                 </stackView>
@@ -221,6 +246,7 @@
     </objects>
     <resources>
         <image name="camera.fill" catalog="system" width="128" height="94"/>
+        <image name="smallTempleLogo " width="100" height="115"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

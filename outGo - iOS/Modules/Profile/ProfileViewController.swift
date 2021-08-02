@@ -32,6 +32,9 @@ class ProfileViewController: UIViewController {
         setCollection()
         loadMyEventsCollection()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
     
     func setNavigation(){
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "RedFade"), for: .default)
@@ -130,8 +133,15 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         let eventImage = event.properties.eventImage
         let timePassed = Utilities.shared.getTimePassed(postDate: event.properties.eventDate as NSDate)
         let distance = event.current.distance
-        cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType, friendEvent: event.friendEvent))
+        cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType, friendEvent: event.visability.friendEvent))
         return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let index = indexPath.row
+        let ViewEventeVC = ViewEventViewController(nibName: "ViewEventViewController", bundle: nil)
+        ViewEventeVC.event = myEvents[index]
+        show(ViewEventeVC, sender: self)
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -15,8 +15,11 @@ class FirestoreService {
     enum Collection: String {
         case events = "All Events"
         case users = "Users"
-            }
+        case circle = "Circles"
+        case friends = "Friends"
+    }
     let currentUser = UserDefaults.standard.string(forKey: "currentUser")
+    let userGroup = UserDefaults.standard.string(forKey: "groupName")
     let db = Firestore.firestore()
     static let shared = FirestoreService()
     private init() {}
@@ -38,32 +41,33 @@ class FirestoreService {
                                 var result: Event?
                                 do {
                                     result = try diff.document.data(as: Event.self)
-                                    if result?.current.isPublic == false && userFriend.contains((result?.properties.host)!) == false && result?.properties.host != self.currentUser {
-                                    }
-                                    else {
-                                        //sets coordinates
-                                        let lat = result?.coordinates.latitude
-                                        let long = result?.coordinates.longitude
-                                        result?.properties.eventLocation = CLLocation(latitude: lat!, longitude: long!)
-                                        result?.properties.eventLocation2d = CLLocationCoordinate2D(latitude: lat!, longitude: long!)
-                                        //sets active status
-                                        if round(Date().timeIntervalSince(result?.properties.eventDate ?? Date() as Date)) < 0 {
-                                            result?.current.isActive = false
-                                        }
-                                        //gets image
-                                        let url = URL(string: result!.properties.imageURL)
-                                        let data = try? Data(contentsOf: url!)
-                                        if data == nil {
-                                            result?.properties.eventImage = UIImage(named: "RedPin")!
-                                        }
-                                        else {
-                                            result?.properties.eventImage = UIImage(data: data!) ?? UIImage(named: "RedPin")!
-                                        }
+                                    if self.eventExpiredCheck(createdAt: (result?.properties.eventDate)!, docID: diff.document.documentID) == false {
                                         if userFriend.contains((result?.properties.host)!) {
-                                            result?.friendEvent = true
+                                            result?.visability.friendEvent = true
                                         }
-                                        if let result = result {
-                                            events.append(result)
+                                        if (result?.visability.isPublic == false && result?.visability.friendEvent == false && result?.properties.host != self.currentUser) || (self.groupEventCheck(check: (result?.visability.groupEvent)!) == false) {/*dont post*/}
+                                        else {
+                                            //sets coordinates
+                                            let lat = result?.coordinates.latitude
+                                            let long = result?.coordinates.longitude
+                                            result?.properties.eventLocation = CLLocation(latitude: lat!, longitude: long!)
+                                            result?.properties.eventLocation2d = CLLocationCoordinate2D(latitude: lat!, longitude: long!)
+                                            //sets active status
+                                            if round(Date().timeIntervalSince(result?.properties.eventDate ?? Date() as Date)) < 0 {
+                                                result?.current.isActive = false
+                                            }
+                                            //gets image
+                                            let url = URL(string: result!.properties.imageURL)
+                                            let data = try? Data(contentsOf: url!)
+                                            if data == nil {
+                                                result?.properties.eventImage = UIImage(named: "RedPin")!
+                                            }
+                                            else {
+                                                result?.properties.eventImage = UIImage(data: data!) ?? UIImage(named: "BluePin")!
+                                            }
+                                            if let result = result {
+                                                events.append(result)
+                                            }
                                         }
                                     }
                                 }
@@ -92,6 +96,23 @@ class FirestoreService {
             }
         }
     }
+    func eventExpiredCheck(createdAt: Date, docID: String) -> Bool {
+        if round(Date().timeIntervalSince(createdAt as Date)) > 86400 {
+            self.db.collection(Collection.events.rawValue).document(docID).delete()
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    func groupEventCheck(check: Bool) -> Bool {
+        if check == true && userGroup! == "" {
+            return false
+        }
+        else {
+            return true
+        }
+    }
     
     func getEventComments(postID : String, completion: @escaping ([Comments]) -> Void){
         db.collection(Collection.events.rawValue).document(postID).getDocument { (document, error) in
@@ -111,10 +132,6 @@ class FirestoreService {
         }
     }
     
-    func deleteEvent(postID : String) {
-        db.collection(Collection.events.rawValue).document(postID).delete()
-    }
-    
     func getFriends(completion: @escaping ([UserProfile]) -> Void){
         var friends = [UserProfile]()
         let authID = Auth.auth().currentUser
@@ -123,7 +140,7 @@ class FirestoreService {
         }
         else {
             let userID = String(authID!.uid)
-            let userFriends = self.db.collection("Circles").document(currentUser!).collection("Friends").getDocuments { snapshot, error in
+            let userFriends = self.db.collection(Collection.circle.rawValue).document(currentUser!).collection(Collection.friends.rawValue).getDocuments { snapshot, error in
                 if error == nil && snapshot != nil {
                     for document in snapshot!.documents {
                         var result: UserProfile?
@@ -141,6 +158,11 @@ class FirestoreService {
                 }
             }
         }
+    }
+    
+    
+    func deleteEvent(postID : String) {
+        db.collection(Collection.events.rawValue).document(postID).delete()
     }
 
 }

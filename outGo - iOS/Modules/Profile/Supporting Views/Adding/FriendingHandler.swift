@@ -62,10 +62,10 @@ class FriendingHandler {
             }
             else { //adds them to your friends
                 self.getUser(friendName: friendName) { user in
-                    self.db.collection(Collection.circle.rawValue).document(self.currentUser!).collection(Collection.friends.rawValue).document(friendName).setData(["userName": friendName, "email": user.email, "userID": user.userID])
+                    self.db.collection(Collection.circle.rawValue).document(self.currentUser!).collection(Collection.friends.rawValue).document(friendName).setData(["userName": friendName, "email": user.email, "userID": user.userID, "group": ["groupName": user.group.groupName, "groupID": user.group.groupID]])
                 }
                 self.getUser(friendName: self.currentUser!) { user in
-                    self.db.collection(Collection.circle.rawValue).document(friendName).collection(Collection.friends.rawValue).document(self.currentUser!).setData(["userName": self.currentUser!, "email": user.email, "userID": user.userID])
+                    self.db.collection(Collection.circle.rawValue).document(friendName).collection(Collection.friends.rawValue).document(self.currentUser!).setData(["userName": self.currentUser!, "email": user.email, "userID": user.userID, "group": ["groupName": user.group.groupName, "groupID": user.group.groupID]])
                 }
             }
         }
