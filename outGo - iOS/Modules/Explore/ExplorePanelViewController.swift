@@ -62,7 +62,7 @@ class ExplorePanelViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func updateFeatured(events: [Event]){
-        var filtered = events.sorted(by: { $0.current.attendance > $1.current.attendance })
+        var filteredFeatured = events.sorted(by: < )
         featuredEvents = Array(filtered.prefix(EventAmount.featured.rawValue))
         featuredCollectionView.reloadData()
     }
@@ -170,3 +170,29 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
         ]
     }
 }
+
+extension Event:  Comparable {
+    
+    
+    static func < (lhs: Event, rhs: Event) -> Bool {
+        var lhsWeight = lhs.current.attendance + (Int(lhs.current.distance) * -1)
+        var rhsWeight = rhs.current.attendance + (Int(rhs.current.distance) * -1)
+        
+    if lhsWeight != rhsWeight {
+    return rhsWeight < lhsWeight
+    } else{
+        return rhsWeight == lhsWeight
+    }
+    }
+       
+    static func == (lhs: Event, rhs: Event) -> Bool {
+        var lhsWeight = lhs.current.attendance + (Int(lhs.current.distance) * -1)
+        var rhsWeight = rhs.current.attendance + (Int(rhs.current.distance) * -1)
+        if lhsWeight == rhsWeight {
+            return lhsWeight == rhsWeight
+
+        }else{
+    return rhsWeight == lhsWeight
+    }
+    }
+    }
