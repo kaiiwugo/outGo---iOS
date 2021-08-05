@@ -33,4 +33,24 @@ class CreateHandler {
         })
     }
     
+    func eventDistanceCheck(lat: Double, long: Double, isPublic: Bool, groupEvent: Bool) -> Bool{
+        let eventLocation = CLLocation(latitude: lat, longitude: long)
+        if ExplorePanelViewController.allEvents.isEmpty == false {
+            let event = ExplorePanelViewController.allEvents[0]
+            if getDistance(myEventLocation: eventLocation, eventLocation: event.properties.eventLocation) < 100 && (event.visability.isPublic == isPublic || event.visability.groupEvent == groupEvent) {
+                return false
+            }
+            return true
+        }
+        else {
+            return true
+        }
+    }
+    
+    func getDistance(myEventLocation: CLLocation, eventLocation: CLLocation) -> Double {
+        var distance: Double
+        distance = myEventLocation.distance(from: eventLocation) //Distance in meters
+        return distance
+    }
+    
 }

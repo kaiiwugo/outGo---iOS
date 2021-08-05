@@ -13,6 +13,7 @@ class ExplorePageCollectionViewCell: UICollectionViewCell {
     @IBOutlet var distance: UIButton!
     @IBOutlet var eventType: UIImageView!
     @IBOutlet var friendImage: UIImageView!
+    @IBOutlet var groupEvent: UIView!
     static let identifier = "ExplorePageCollectionViewCell"
 
     override func awakeFromNib() {
@@ -36,6 +37,13 @@ class ExplorePageCollectionViewCell: UICollectionViewCell {
             friendImage.alpha = 1
         default:
             friendImage.alpha = 0
+        }
+        
+        switch model.groupEvent {
+        case true:
+            groupEvent.alpha = 1
+        default:
+            groupEvent.alpha = 0
         }
         
         switch model.eventType {

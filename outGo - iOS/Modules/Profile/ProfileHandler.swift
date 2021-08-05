@@ -15,6 +15,7 @@ class ProfileHandler {
         case events = "All Events"
         case presets = "Preset Events"
             }
+    let userGroup = UserDefaults.standard.string(forKey: "groupName")
     let db = Firestore.firestore()
     static let shared = ProfileHandler()
     
@@ -34,7 +35,7 @@ class ProfileHandler {
                             var result: Event?
                             do {
                                 result = try document.data(as: Event.self)
-                                if user == result?.properties.host || userFriend.contains((result?.properties.host)!) {
+                                if user == result?.properties.host || (userFriend.contains((result?.properties.host)!) && self.groupEventCheck(check: (result?.visability.groupEvent)!) == true ){
                                     //sets coordinates
                                     let lat = result?.coordinates.latitude
                                     let long = result?.coordinates.longitude
@@ -74,6 +75,15 @@ class ProfileHandler {
                     }
                 }
             }
+        }
+    }
+    
+    func groupEventCheck(check: Bool) -> Bool {
+        if check == true && userGroup! == "" {
+            return false
+        }
+        else {
+            return true
         }
     }
         

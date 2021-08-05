@@ -22,7 +22,7 @@ class LoginViewController: UIViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         self.title = "outGo"
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Medium", size: 25)!, .foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "RedFade"), for: .default)
     }
     @IBAction func loginButton(_ sender: Any) {

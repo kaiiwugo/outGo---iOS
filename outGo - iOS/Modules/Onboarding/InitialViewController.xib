@@ -36,7 +36,7 @@
                         <constraint firstAttribute="width" constant="250" id="QTz-Os-3Es"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
-                    <state key="normal" title="Signup" backgroundImage="RedFadeUp">
+                    <state key="normal" title="Signup" backgroundImage="RedFade">
                         <color key="titleColor" systemColor="labelColor"/>
                     </state>
                     <connections>
@@ -72,7 +72,7 @@
         </view>
     </objects>
     <resources>
-        <image name="RedFadeUp" width="120" height="120"/>
+        <image name="RedFade" width="548" height="532"/>
         <image name="logoTransparentjpeg" width="292" height="292"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

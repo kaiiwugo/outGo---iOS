@@ -60,7 +60,7 @@ class FirestoreService {
                                             let url = URL(string: result!.properties.imageURL)
                                             let data = try? Data(contentsOf: url!)
                                             if data == nil {
-                                                result?.properties.eventImage = UIImage(named: "RedPin")!
+                                                result?.properties.eventImage = UIImage(systemName: "wifi.slash")!.withTintColor(.white)
                                             }
                                             else {
                                                 result?.properties.eventImage = UIImage(data: data!) ?? UIImage(named: "BluePin")!

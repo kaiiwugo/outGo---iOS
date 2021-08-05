@@ -12,7 +12,6 @@ import FloatingPanel
 import CoreLocation
 //import NotificationCenter
 
-
 class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICollectionViewDelegate {
     let userDefaults = UserDefaults.standard
     enum EventAmount: Int {
@@ -20,25 +19,16 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
         case medium = 10
         case large = 20
         }
-    enum EventTypes: String {
-        case personal = "personal"
-        case social = "social"
-        case community = "community"
-        case active = "active"
-        }
-    var attendedEvent = [String]()
     static let shared = MapViewController()
-    //outlets
-    
     @IBOutlet weak var mapView: MKMapView!
+    var attendedEvent = [String]()
     //location vars
     let manager = CLLocationManager()
     var coordinate = CLLocationCoordinate2D()
-    var currentUserLocation = CLLocation()
+    static var currentUserLocation = CLLocation()
     static var publicPins = [CustomPointAnnotation]()
     static var privatePins = [CustomPointAnnotation]()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(loadAllEvents(notification:)), name: NSNotification.Name(rawValue: "loadAllEvents"), object: nil)
@@ -49,13 +39,13 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
     }
-    
     @objc func loadAllEvents(notification: NSNotification) {
         let pins = mapView.annotations
         mapView.removeAnnotations(pins)
         mapView.addAnnotations(Self.publicPins)
         mapView.addAnnotations(Self.privatePins)
     }
+    
     func loadPins(event: [Event], removed: String){
         if removed != "" {
             removePin(event: event, removed: removed)
@@ -66,7 +56,7 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
             event.forEach { event in
                 let annotation = CustomPointAnnotation()
                 annotation.isActive = event.current.isActive
-                annotation.isPublic = event.current.isPublic
+                annotation.isPublic = event.visability.isPublic
                 annotation.eventType = event.properties.eventType
                 annotation.pinID = event.properties.postID
                 do {
@@ -85,7 +75,7 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
     }
     func removePin(event: [Event], removed: String){
         event.forEach { event in
-            if event.current.isPublic == true {
+            if event.visability.isPublic == true {
                 let index: Int = Self.publicPins.firstIndex { pin in
                     pin.pinID == removed
                 } ?? -1
@@ -115,8 +105,8 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
     func setNavigationBars(){
         //sets navigation bar
         self.title = "Map"
-        self.navigationController?.navigationBar.tintColor = UIColor.label
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!]
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!, .foregroundColor: UIColor.white]
         let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
                 navigationItem.backBarButtonItem = backBarButtonItem
         //makes bar clear
@@ -171,6 +161,10 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
     
     //Attendence of events
     func setEventRegions (event: [Event]){
+        let monitoredRegions = manager.monitoredRegions
+        for region in monitoredRegions {
+            manager.stopMonitoring(for: region)
+        }
         event.forEach { event in
             monitorRegionAtLocation(center: event.properties.eventLocation2d, identifier: event.properties.postID)
         }
@@ -190,7 +184,6 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
     
     func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
         if let region = region as? CLCircularRegion {
-            
             let eventID = region.identifier
             if state == .inside {
                 addAttendence(eventID: eventID)
@@ -200,6 +193,7 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
             }
         }
     }
+    
     func addAttendence(eventID: String){
         if attendedEvent.contains(eventID) == false {
             MapPinHandler.shared.addAttendance(postID: eventID, collection: .events)
@@ -209,8 +203,8 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
     func removeAttendence(eventID: String){
         let index: Int = attendedEvent.firstIndex { event in
             event == eventID
-        } ?? 0
-        if attendedEvent[index] != nil {
+        } ?? -1
+        if index != -1 {
             attendedEvent.remove(at: index)
             MapPinHandler.shared.removeAttendance(postID: eventID, collection: .events)
         }
@@ -237,7 +231,7 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
     //handles updateing current distance from events + what event regions are monitored 
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         //updates distance to events every .1 miles moved by user
-        MapPinHandler.shared.shouldUpdateDistance(oldLocation: currentUserLocation, newLocation: userLocation)
+        MapPinHandler.shared.shouldUpdateDistance(oldLocation: Self.currentUserLocation, newLocation: userLocation)
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
@@ -278,5 +272,3 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
     
     
 }
-
-

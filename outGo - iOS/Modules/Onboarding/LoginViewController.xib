@@ -51,8 +51,8 @@
                         <constraint firstAttribute="height" constant="50" id="hob-Fw-Rb4"/>
                         <constraint firstAttribute="width" constant="250" id="taM-CO-yMk"/>
                     </constraints>
-                    <state key="normal" title="Login" backgroundImage="BlueFadeUp">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="Login" backgroundImage="BlueFade">
+                        <color key="titleColor" systemColor="labelColor"/>
                     </state>
                     <connections>
                         <action selector="loginButton:" destination="-1" eventType="touchUpInside" id="TYY-7S-4G8"/>
@@ -80,7 +80,10 @@
         </view>
     </objects>
     <resources>
-        <image name="BlueFadeUp" width="120" height="120"/>
+        <image name="BlueFade" width="120" height="120"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="secondarySystemFillColor">
             <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

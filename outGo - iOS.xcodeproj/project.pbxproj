@@ -41,6 +41,8 @@
 		05C88EF826B1B943000979B7 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C88EF726B1B943000979B7 /* ProfileHandler.swift */; };
 		05C88EFD26B32A42000979B7 /* AffiliationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C88EFB26B32A42000979B7 /* AffiliationsViewController.swift */; };
 		05C88EFE26B32A42000979B7 /* AffiliationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05C88EFC26B32A42000979B7 /* AffiliationsViewController.xib */; };
+		05C88F0226B8AEF8000979B7 /* ReportBugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C88F0026B8AEF8000979B7 /* ReportBugViewController.swift */; };
+		05C88F0326B8AEF8000979B7 /* ReportBugViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05C88F0126B8AEF8000979B7 /* ReportBugViewController.xib */; };
 		05D89A732683C204006A49F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 05D89A722683C204006A49F5 /* GoogleService-Info.plist */; };
 		05D89A77268513F6006A49F5 /* CustomTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D89A76268513F6006A49F5 /* CustomTabBarViewController.swift */; };
 		05D89A7A26851567006A49F5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D89A7826851567006A49F5 /* MapViewController.swift */; };
@@ -131,6 +133,8 @@
 		05C88EF726B1B943000979B7 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		05C88EFB26B32A42000979B7 /* AffiliationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationsViewController.swift; sourceTree = "<group>"; };
 		05C88EFC26B32A42000979B7 /* AffiliationsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AffiliationsViewController.xib; sourceTree = "<group>"; };
+		05C88F0026B8AEF8000979B7 /* ReportBugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBugViewController.swift; sourceTree = "<group>"; };
+		05C88F0126B8AEF8000979B7 /* ReportBugViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportBugViewController.xib; sourceTree = "<group>"; };
 		05D89A722683C204006A49F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		05D89A76268513F6006A49F5 /* CustomTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarViewController.swift; sourceTree = "<group>"; };
 		05D89A7826851567006A49F5 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -423,6 +427,7 @@
 		05C88EF926B329DB000979B7 /* Settings Views */ = {
 			isa = PBXGroup;
 			children = (
+				05C88EFF26B8AEA7000979B7 /* Supporting Views */,
 				057C4FA6269CE81500107E3B /* SettingsViewController.swift */,
 				057C4FA7269CE81500107E3B /* SettingsViewController.xib */,
 			);
@@ -436,6 +441,15 @@
 				05C88EFC26B32A42000979B7 /* AffiliationsViewController.xib */,
 			);
 			path = Affiliations;
+			sourceTree = "<group>";
+		};
+		05C88EFF26B8AEA7000979B7 /* Supporting Views */ = {
+			isa = PBXGroup;
+			children = (
+				05C88F0026B8AEF8000979B7 /* ReportBugViewController.swift */,
+				05C88F0126B8AEF8000979B7 /* ReportBugViewController.xib */,
+			);
+			path = "Supporting Views";
 			sourceTree = "<group>";
 		};
 		05D89A8A268540F8006A49F5 /* Services */ = {
@@ -612,6 +626,7 @@
 				057C4FA9269CE81500107E3B /* SettingsViewController.xib in Resources */,
 				05D89A83268515B1006A49F5 /* ExplorePanelViewController.xib in Resources */,
 				05D89A732683C204006A49F5 /* GoogleService-Info.plist in Resources */,
+				05C88F0326B8AEF8000979B7 /* ReportBugViewController.xib in Resources */,
 				057C4FA1269CE7F500107E3B /* CircleViewController.xib in Resources */,
 				05855113267B8A98005056A2 /* CreateEventViewController.xib in Resources */,
 			);
@@ -756,6 +771,7 @@
 				058550DA267A858C005056A2 /* outGo___iOS.xcdatamodeld in Sources */,
 				05D89A77268513F6006A49F5 /* CustomTabBarViewController.swift in Sources */,
 				05C88EFD26B32A42000979B7 /* AffiliationsViewController.swift in Sources */,
+				05C88F0226B8AEF8000979B7 /* ReportBugViewController.swift in Sources */,
 				057C4FAD269CE87D00107E3B /* UsersTableViewCell.swift in Sources */,
 				05C88EF826B1B943000979B7 /* ProfileHandler.swift in Sources */,
 				05D89A89268540DB006A49F5 /* MapPinHandler.swift in Sources */,

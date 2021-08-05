@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="addInfoView" destination="iJf-op-fDq" id="xri-Ec-GG1"/>
                 <outlet property="addLabel" destination="K9Z-QP-ued" id="Wxj-Lg-YXR"/>
+                <outlet property="badgeImage" destination="syK-uV-vZh" id="8b3-xo-U6z"/>
                 <outlet property="emailTextField" destination="SjQ-Gf-M9n" id="Mad-Fh-cbY"/>
                 <outlet property="errorLabel" destination="il2-r8-Lze" id="P2q-zZ-DHv"/>
                 <outlet property="templeButton" destination="FsI-vp-WV8" id="LbC-Ig-ToE"/>
@@ -25,8 +26,8 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Groups" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIU-VR-zGi">
-                    <rect key="frame" x="20" y="69" width="109.5" height="27.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MyGroups" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIU-VR-zGi">
+                    <rect key="frame" x="20" y="69" width="93" height="27.5"/>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -90,7 +91,7 @@
                         <constraint firstItem="SjQ-Gf-M9n" firstAttribute="top" secondItem="Oif-t9-YFC" secondAttribute="bottom" constant="20" id="jOe-yA-jzx"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j8S-1K-56d">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j8S-1K-56d" userLabel="Seperator">
                     <rect key="frame" x="5" y="101.5" width="389" height="1"/>
                     <color key="backgroundColor" systemColor="separatorColor"/>
                     <constraints>
@@ -98,10 +99,14 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0u9-Zb-DSl">
-                    <rect key="frame" x="50" y="152.5" width="125" height="125"/>
+                    <rect key="frame" x="20" y="122.5" width="125" height="125"/>
                     <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shield.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="syK-uV-vZh">
+                            <rect key="frame" x="0.0" y="0.5" width="125" height="124"/>
+                            <color key="tintColor" systemColor="secondarySystemBackgroundColor"/>
+                        </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FsI-vp-WV8">
-                            <rect key="frame" x="25" y="18" width="75" height="75"/>
+                            <rect key="frame" x="25" y="25" width="75" height="75"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="75" id="Xz0-5R-w8M"/>
                                 <constraint firstAttribute="width" constant="75" id="aRd-fA-V6z"/>
@@ -114,7 +119,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="add" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K9Z-QP-ued">
-                            <rect key="frame" x="49.5" y="98" width="26.5" height="20.5"/>
+                            <rect key="frame" x="49.5" y="104.5" width="26.5" height="20.5"/>
                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -123,25 +128,39 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="FsI-vp-WV8" firstAttribute="centerX" secondItem="0u9-Zb-DSl" secondAttribute="centerX" id="1wR-zh-nN6"/>
-                        <constraint firstItem="FsI-vp-WV8" firstAttribute="top" secondItem="0u9-Zb-DSl" secondAttribute="top" constant="18" id="UMo-3V-Pyo"/>
+                        <constraint firstAttribute="bottom" secondItem="syK-uV-vZh" secondAttribute="bottom" id="JR7-n7-EcL"/>
+                        <constraint firstItem="FsI-vp-WV8" firstAttribute="centerY" secondItem="0u9-Zb-DSl" secondAttribute="centerY" id="X52-S0-hW0"/>
                         <constraint firstAttribute="width" constant="125" id="e51-SH-6sA"/>
-                        <constraint firstItem="K9Z-QP-ued" firstAttribute="top" secondItem="FsI-vp-WV8" secondAttribute="bottom" constant="5" id="fLH-2w-vP7"/>
+                        <constraint firstItem="syK-uV-vZh" firstAttribute="top" secondItem="0u9-Zb-DSl" secondAttribute="top" id="m2i-8i-lX4"/>
+                        <constraint firstItem="syK-uV-vZh" firstAttribute="leading" secondItem="0u9-Zb-DSl" secondAttribute="leading" id="nDC-Us-Sna"/>
                         <constraint firstAttribute="height" constant="125" id="ouO-Re-QDy"/>
+                        <constraint firstAttribute="trailing" secondItem="syK-uV-vZh" secondAttribute="trailing" id="pzp-ON-3Uk"/>
+                        <constraint firstAttribute="bottom" secondItem="K9Z-QP-ued" secondAttribute="bottom" id="rbi-n5-r3A"/>
                         <constraint firstItem="K9Z-QP-ued" firstAttribute="centerX" secondItem="0u9-Zb-DSl" secondAttribute="centerX" id="ywg-uh-2CD"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uVL-br-3FU" userLabel="Seperator">
+                    <rect key="frame" x="0.0" y="267.5" width="394" height="1"/>
+                    <color key="backgroundColor" systemColor="separatorColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="AtB-2I-8zP"/>
                     </constraints>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="0u9-Zb-DSl" firstAttribute="top" secondItem="j8S-1K-56d" secondAttribute="bottom" constant="50" id="4sP-aG-VUG"/>
-                <constraint firstItem="0u9-Zb-DSl" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="50" id="IkU-2c-3zv"/>
+                <constraint firstItem="0u9-Zb-DSl" firstAttribute="top" secondItem="j8S-1K-56d" secondAttribute="bottom" constant="20" id="4sP-aG-VUG"/>
+                <constraint firstItem="0u9-Zb-DSl" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="IkU-2c-3zv"/>
                 <constraint firstItem="iJf-op-fDq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="MPp-2r-LrO"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="iJf-op-fDq" secondAttribute="bottom" id="MVl-FN-Xqf"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="iJf-op-fDq" secondAttribute="trailing" id="O3i-pn-nwF"/>
                 <constraint firstItem="yIU-VR-zGi" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="UAH-rg-55v"/>
                 <constraint firstItem="yIU-VR-zGi" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="25" id="Vbv-vM-3qF"/>
                 <constraint firstItem="j8S-1K-56d" firstAttribute="top" secondItem="yIU-VR-zGi" secondAttribute="bottom" constant="5" id="XvJ-2E-YsP"/>
+                <constraint firstItem="uVL-br-3FU" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="bLW-iv-t9m"/>
+                <constraint firstItem="uVL-br-3FU" firstAttribute="top" secondItem="0u9-Zb-DSl" secondAttribute="bottom" constant="20" id="d1f-jh-PwT"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="uVL-br-3FU" secondAttribute="trailing" constant="20" id="dQj-qd-j3V"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="j8S-1K-56d" secondAttribute="trailing" constant="20" id="nYp-Ho-cDb"/>
                 <constraint firstItem="j8S-1K-56d" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="5" id="olm-hv-LpH"/>
             </constraints>
@@ -149,7 +168,11 @@
         </view>
     </objects>
     <resources>
+        <image name="shield.fill" catalog="system" width="128" height="121"/>
         <image name="smallTempleLogo " width="100" height="115"/>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="secondarySystemFillColor">
             <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

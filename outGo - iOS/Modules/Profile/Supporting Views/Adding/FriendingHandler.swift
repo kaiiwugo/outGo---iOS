@@ -92,7 +92,9 @@ class FriendingHandler {
                 catch {
                     print(error)
                 }
-                completion(result!)
+                if result?.userName != "" {
+                    completion(result!)
+                }
             }
         }
     }
@@ -126,6 +128,17 @@ class FriendingHandler {
                     users.append(document.documentID)
                 }
                 completion(users)
+            }
+        }
+    }
+    
+    func checkUserExists(user: String, completion: @escaping (Bool) -> Void){
+        db.collection("Users").document(user).getDocument { snapshot, err in
+            if snapshot?.exists == true && user != self.currentUser {
+                completion(true)
+            }
+            else {
+                completion(false)
             }
         }
     }

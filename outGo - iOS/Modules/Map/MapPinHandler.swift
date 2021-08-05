@@ -60,6 +60,7 @@ class MapPinHandler {
                 var filtered = monitoredEvents.sorted(by: { $0.current.distance < $1.current.distance })
                 filtered.prefix(20)
                 MapViewController.shared.setEventRegions(event: Array(filtered))
+                MapViewController.currentUserLocation = new
             }
         }
     }

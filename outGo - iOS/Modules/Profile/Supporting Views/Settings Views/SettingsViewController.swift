@@ -27,9 +27,19 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func suggestNewFeatureButton(_ sender: Any) {
+        let reportBugVC = ReportBugViewController(nibName: "ReportBugViewController", bundle: nil)
+        reportBugVC.sender = "suggestion"
+        reportBugVC.modalPresentationStyle = .fullScreen
+        reportBugVC.modalTransitionStyle = .crossDissolve
+        present(reportBugVC, animated: true, completion: nil)
     }
     
     @IBAction func reportBugButton(_ sender: Any) {
+        let reportBugVC = ReportBugViewController(nibName: "ReportBugViewController", bundle: nil)
+        reportBugVC.sender = "bug"
+        reportBugVC.modalPresentationStyle = .fullScreen
+        reportBugVC.modalTransitionStyle = .crossDissolve
+        present(reportBugVC, animated: true, completion: nil)
     }
     
     @IBAction func termsOfServiceButton(_ sender: Any) {

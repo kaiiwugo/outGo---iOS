@@ -59,15 +59,12 @@ struct Coordinates: Codable {
 
 struct Current: Codable {
     var viewDistance: Double
-    var isPublic: Bool
     var attendance: Int
-    var distance: Double
+    var distance = Double()
     var isActive: Bool
     enum CodingKeys: String, CodingKey {
         case viewDistance = "viewDistance"
-        case isPublic = "isPublic"
         case attendance = "attendance"
-        case distance = "distance"
         case isActive = "isActive"
     }
 }

@@ -24,12 +24,14 @@ class InitialViewController: UIViewController {
         signupButton.alpha = 0
         logoImage.alpha = 0
         addUserListener()
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Medium", size: 25)!, .foregroundColor: UIColor.white]
         loginButton.layer.borderWidth = 1
         loginButton.layer.borderColor = UIColor.separator.cgColor
         loginButton.layer.cornerRadius = 5
         signupButton.layer.cornerRadius = 5
+        signupButton.clipsToBounds = true
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "RedFade"), for: .default)
+        self.navigationController?.navigationBar.tintColor = UIColor.white
     }
     
     @IBAction func loginButton(_ sender: Any) {

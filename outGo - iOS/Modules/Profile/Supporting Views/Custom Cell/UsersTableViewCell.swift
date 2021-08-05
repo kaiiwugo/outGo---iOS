@@ -68,7 +68,7 @@ class UsersTableViewCell: UITableViewCell {
             userActionButton.setTitle("", for: .normal)
             userActionButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
         }
-        
+        rejectButton.alpha = 0
     }
     @IBAction func rejectButton(_ sender: Any) {
         FriendingHandler.shared.rejectUser(userName: userName.text!)

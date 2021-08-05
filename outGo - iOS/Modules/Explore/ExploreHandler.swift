@@ -7,10 +7,13 @@
 
 import Foundation
 import MapKit
+import FirebaseFirestore
 
 class ExplorePanelHandler{
     var events = [Event]()
     static let shared = ExplorePanelHandler()
+    let currentUser = UserDefaults.standard.string(forKey: "currentUser")
+    let db = Firestore.firestore()
     
     //returns the top n closest events
     func loadEvents(limit: Int = 50, userLocation: CLLocation, completion: @escaping ([Event], String) -> Void){
@@ -55,6 +58,16 @@ class ExplorePanelHandler{
         distance = userLocation.distance(from: eventLocation) //Distance in meters
         distance = distance * 0.00062137 //To miles
         return round(10*distance)/10 //Rounded
+    }
+    
+    func activeEventCheck() -> Bool {
+        var hostCheck = false
+        ExplorePanelViewController.allEvents.forEach { event in
+            if event.properties.host == currentUser {
+                hostCheck = true
+            }
+        }
+        return hostCheck
     }
     
 }

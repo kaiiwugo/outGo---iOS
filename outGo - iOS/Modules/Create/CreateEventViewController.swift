@@ -17,6 +17,10 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         case all = "All Events"
         case properties = "Properties"
     }
+    enum ErrorMessage: String {
+        case noPicture = "Must add a picture to event"
+        case EventInProgress = "There is already an event at this location. Try adding media to that event"
+    }
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
     let locationManager = CLLocationManager()
@@ -53,14 +57,14 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     }
     
     func setgroup(){
-        if groupName == "" {
-            groupButtonView.alpha = 0
-        }
         groupButtonView.alpha = 0.25
         groupButtonView.layer.cornerRadius = groupButtonView.frame.width/2
         groupButtonView.layer.borderColor = UIColor.separator.cgColor
         groupButtonView.layer.borderWidth = 2
         groupButtonView.backgroundColor = UIColor.secondarySystemBackground
+        if groupName == "" {
+            groupButtonView.alpha = 0
+        }
     }
 
     func setupCarousel(){
@@ -110,20 +114,29 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         let eventDate = datePicker.date
         let host = currentUser
         var isActive = true
-        let groupEvent = false
+        var groupEvent = !publicSwitch.isEnabled
         let eventLatitude = self.mapView.centerCoordinate.latitude
         let eventLongitude = self.mapView.centerCoordinate.longitude
-        if round(Date().timeIntervalSince(datePicker.date as Date)) < 0 {
-            isActive = false
+        
+        if imageButton.image(for: .normal) == UIImage(systemName: "camera.fill") {
+            showAllert(message: .noPicture)
         }
-        DispatchQueue.main.async {
-            CreateHandler.shared.getImageURL(imageData: self.imageData ?? Data(), date: eventDate) { result in
-                let eventDocument = self.db.collection(Collection.all.rawValue).document()//.collection(Collection.properties.rawValue).document()
-                eventDocument.setData(["comments": [], "coordinates": ["latitude": eventLatitude, "longitude": eventLongitude], "properties": ["details": eventDetails, "host": host, "imageURL": result, "eventDate": eventDate, "postID": eventDocument.documentID, "eventType": self.eventType], "current": ["distance": 0, "isPublic": self.publicSwitch.isOn, "attendance": 0, "viewDistance": 0, "isActive": isActive], "visability": ["isPublic": self.publicSwitch.isOn, "groupEvent": groupEvent]])
+        else if CreateHandler.shared.eventDistanceCheck(lat: eventLatitude, long: eventLongitude, isPublic: publicSwitch.isOn, groupEvent: groupEvent) == false {
+            showAllert(message: .EventInProgress)
+        }
+        else {
+            if round(Date().timeIntervalSince(datePicker.date as Date)) < 0 {
+                isActive = false
             }
+            DispatchQueue.main.async {
+                CreateHandler.shared.getImageURL(imageData: self.imageData ?? Data(), date: eventDate) { result in
+                    let eventDocument = self.db.collection(Collection.all.rawValue).document()
+                    eventDocument.setData(["comments": [], "coordinates": ["latitude": eventLatitude, "longitude": eventLongitude], "properties": ["details": eventDetails, "host": host, "imageURL": result, "eventDate": eventDate, "postID": eventDocument.documentID, "eventType": self.eventType], "current": ["isPublic": self.publicSwitch.isOn, "attendance": 0, "viewDistance": 0, "isActive": isActive], "visability": ["isPublic": self.publicSwitch.isOn, "groupEvent": groupEvent]])
+                }
+            }
+            self.tabBarController?.tabBar.isHidden = false
+            self.navigationController?.popViewController(animated: true)
         }
-        self.tabBarController?.tabBar.isHidden = false
-        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func groupButton(_ sender: Any) {
@@ -141,6 +154,11 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    func showAllert(message: ErrorMessage){
+        let alert = UIAlertController(title: "", message: message.rawValue, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ok", style: .cancel))
+        present(alert, animated: true)
+    }
     
     @IBAction func imageButton(_ sender: Any) {
         takePicture()
@@ -185,12 +203,7 @@ extension CreateEventViewController: UIImagePickerControllerDelegate, UINavigati
 }
 extension CreateEventViewController: iCarouselDataSource, iCarouselDelegate {
     func numberOfItems(in carousel: iCarousel) -> Int {
-        if groupName != "" {
-            return 4
-        }
-        else {
-            return 3
-        }
+        3
     }
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         let view = UIView(frame: carouselView.bounds)
@@ -206,12 +219,6 @@ extension CreateEventViewController: iCarouselDataSource, iCarouselDelegate {
             imageView.image = UIImage(named: "GreenPin")
         case 2:
             imageView.image = UIImage(named: "YellowPin")
-        case 3:
-            imageView.clipsToBounds = true
-            imageView.image = UIImage(named: "TempleLogo")
-            imageView.contentMode = .scaleAspectFit
-            
-         
         default:
             imageView.image = UIImage(named: "RedPin")
         }
@@ -235,10 +242,6 @@ extension CreateEventViewController: iCarouselDataSource, iCarouselDelegate {
             eventTypeLabel.text = "Active"
             publicSwitch.isEnabled = true
             publicLabel.text = "Public"
-        case 3:
-            publicSwitch.isEnabled = false
-            publicLabel.text = "Temple"
-            
         default:
             "social"
         }

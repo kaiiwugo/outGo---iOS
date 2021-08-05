@@ -54,6 +54,32 @@
                                 <rect key="frame" x="0.0" y="0.5" width="20" height="19"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nds-Gk-o4W">
+                                <rect key="frame" x="25" y="0.0" width="20" height="20"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shield.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="aBr-Ps-yeO">
+                                        <rect key="frame" x="0.0" y="0.5" width="20" height="19"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TempleLogo" translatesAutoresizingMaskIntoConstraints="NO" id="BYf-q4-7Fl">
+                                        <rect key="frame" x="5" y="5" width="10" height="10"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="10" id="h8x-tz-CxV"/>
+                                            <constraint firstAttribute="height" constant="10" id="lpL-m6-r5t"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="7px-Dg-PLK"/>
+                                    <constraint firstAttribute="trailing" secondItem="aBr-Ps-yeO" secondAttribute="trailing" id="WYj-CV-5pk"/>
+                                    <constraint firstAttribute="width" constant="20" id="Zht-VI-ktG"/>
+                                    <constraint firstItem="aBr-Ps-yeO" firstAttribute="leading" secondItem="Nds-Gk-o4W" secondAttribute="leading" id="afH-iL-aoZ"/>
+                                    <constraint firstItem="BYf-q4-7Fl" firstAttribute="centerY" secondItem="Nds-Gk-o4W" secondAttribute="centerY" id="iLj-4S-HAf"/>
+                                    <constraint firstItem="BYf-q4-7Fl" firstAttribute="centerX" secondItem="Nds-Gk-o4W" secondAttribute="centerX" id="jXc-Z8-T1z"/>
+                                    <constraint firstAttribute="bottom" secondItem="aBr-Ps-yeO" secondAttribute="bottom" id="oOo-2L-YS0"/>
+                                    <constraint firstItem="aBr-Ps-yeO" firstAttribute="top" secondItem="Nds-Gk-o4W" secondAttribute="top" id="s4e-ua-EVl"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIl-Ll-HC3">
                                 <rect key="frame" x="65" y="0.0" width="80" height="20"/>
                                 <constraints>
@@ -66,6 +92,9 @@
                                 </state>
                             </button>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="Nds-Gk-o4W" firstAttribute="leading" secondItem="7d8-pg-XsD" secondAttribute="trailing" constant="5" id="plc-S3-Ohe"/>
+                        </constraints>
                     </stackView>
                 </subviews>
             </view>
@@ -92,6 +121,7 @@
                 <outlet property="eventImage" destination="ief-Ax-Sqa" id="Yyg-IB-Bcf"/>
                 <outlet property="eventType" destination="xkt-WE-oEx" id="yYf-zN-HS8"/>
                 <outlet property="friendImage" destination="7d8-pg-XsD" id="lbB-b5-50u"/>
+                <outlet property="groupEvent" destination="Nds-Gk-o4W" id="aPW-N0-RIv"/>
                 <outlet property="timeLabel" destination="mev-hK-gCZ" id="JYh-4d-1vz"/>
             </connections>
             <point key="canvasLocation" x="231.8840579710145" y="143.97321428571428"/>
@@ -99,7 +129,9 @@
     </objects>
     <resources>
         <image name="RedFadeUp" width="120" height="120"/>
+        <image name="TempleLogo" width="65" height="74"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <image name="person.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="shield.fill" catalog="system" width="128" height="121"/>
     </resources>
 </document>

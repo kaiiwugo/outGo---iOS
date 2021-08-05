@@ -19,6 +19,7 @@ class AffiliationsViewController: UIViewController {
     @IBOutlet weak var addInfoView: UIView!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var addLabel: UILabel!
+    @IBOutlet weak var badgeImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,8 @@ class AffiliationsViewController: UIViewController {
             templeButtonView.alpha = 1
             addLabel.alpha = 0
             templeButtonView.isUserInteractionEnabled = false
+            badgeImage.alpha = 1
+            templeButtonView.layer.borderWidth = 0
         }
     }
     
@@ -58,6 +61,7 @@ class AffiliationsViewController: UIViewController {
             templeButtonView.alpha = 1
             templeButtonView.isUserInteractionEnabled = false
             addLabel.alpha = 0
+            addInfoView.alpha = 0
             showMessage(message: "Group Added")
             addGroup()
         }

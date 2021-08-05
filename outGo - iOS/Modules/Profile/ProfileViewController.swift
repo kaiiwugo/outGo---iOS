@@ -10,9 +10,10 @@ import FirebaseAuth
 
 class ProfileViewController: UIViewController {
     
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var userNameLabel: UILabel!
     
+    @IBOutlet weak var profileImageButton: UIButton!
+    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var buttonsView: UIView!
     @IBOutlet weak var badgeView: UIView!
     @IBOutlet weak var badgeImage: UIImageView!
     @IBOutlet weak var myCircleButton: UIButton!
@@ -39,27 +40,31 @@ class ProfileViewController: UIViewController {
     func setNavigation(){
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "RedFade"), for: .default)
         self.title = "Circle"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!, .foregroundColor: UIColor.white]
         let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
                 navigationItem.backBarButtonItem = backBarButtonItem
-        self.navigationController?.navigationBar.tintColor = UIColor.label
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(logoutButton))
-        self.navigationItem.leftBarButtonItem?.tintColor = .label
+        self.navigationItem.leftBarButtonItem?.tintColor = .white
     }
     
     func setButtons(){
-        myCircleButton.tintColor = .label
+        myCircleButton.tintColor = .white
         myCircleButton.layer.cornerRadius = myCircleButton.frame.width/2
         myCircleButton.clipsToBounds = true
-        settingsButton.tintColor = .label
+        settingsButton.tintColor = .white
         settingsButton.layer.cornerRadius = settingsButton.frame.width/2
         settingsButton.clipsToBounds = true
         addButton.layer.cornerRadius = addButton.frame.width/2
         addButton.clipsToBounds = true
-        addButton.tintColor = .label
+        addButton.tintColor = .white
     }
     
     func setProfile(){
+        profileImageButton.layer.cornerRadius = profileImageButton.frame.width/2
+        profileImageButton.clipsToBounds = true
+        buttonsView.layer.cornerRadius = 10
+        buttonsView.clipsToBounds = true
         badgeView.alpha = 0
         userNameLabel.text = currentUser
         if groupName != "" {
@@ -91,6 +96,11 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    @IBAction func profileImageButton(_ sender: Any) {
+        
+    }
+    
+    
     @IBAction func myCircleButton(_ sender: Any) {
         let circleVC = CircleViewController(nibName: "CircleViewController", bundle: nil)
         show(circleVC, sender: self)
@@ -111,7 +121,6 @@ class ProfileViewController: UIViewController {
         settingsvc.modalPresentationStyle = .popover
         settingsvc.modalTransitionStyle = .coverVertical
         present(settingsvc, animated: true, completion: nil)
-
     }
 
     
@@ -133,7 +142,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         let eventImage = event.properties.eventImage
         let timePassed = Utilities.shared.getTimePassed(postDate: event.properties.eventDate as NSDate)
         let distance = event.current.distance
-        cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType, friendEvent: event.visability.friendEvent))
+        cell.configure(with: ExploreEventCell(eventImage: eventImage, timeSincePost: timePassed, distance: distance, eventType: event.properties.eventType, friendEvent: event.visability.friendEvent, groupEvent: event.visability.groupEvent))
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -14,12 +14,14 @@ struct ExploreEventCell {
     let distance: Double
     let eventType: String
     let friendEvent: Bool
+    let groupEvent: Bool
     
-    init(eventImage: UIImage, timeSincePost: String, distance: Double, eventType: String, friendEvent: Bool) {
+    init(eventImage: UIImage, timeSincePost: String, distance: Double, eventType: String, friendEvent: Bool, groupEvent: Bool) {
         self.eventImage = eventImage
         self.timeSincePost = timeSincePost
         self.distance = distance
         self.eventType = eventType
         self.friendEvent = friendEvent
+        self.groupEvent = groupEvent
     }
 }
