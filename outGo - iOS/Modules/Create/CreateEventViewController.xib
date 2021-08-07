@@ -87,8 +87,38 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YtE-EL-U5O">
+                            <rect key="frame" x="325" y="14.5" width="51" height="31"/>
+                        </switch>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="t0e-Sv-rSK"/>
+                    </constraints>
+                </stackView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tMv-p2-ScS" userLabel="Seperator">
+                    <rect key="frame" x="5" y="245" width="404" height="1"/>
+                    <color key="backgroundColor" systemColor="separatorColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="YWe-ib-wMF"/>
+                    </constraints>
+                </view>
+                <stackView opaque="NO" contentMode="center" distribution="equalSpacing" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Kzn-P1-KJd">
+                    <rect key="frame" x="20" y="251" width="374" height="60"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S0Y-yR-Ykj">
+                            <rect key="frame" x="0.0" y="18.5" width="37.5" height="23.5"/>
+                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <datePicker alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="30" translatesAutoresizingMaskIntoConstraints="NO" id="mXr-Fm-g0l">
+                            <rect key="frame" x="151" y="0.0" width="60" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="60" id="DfD-AY-18P"/>
+                            </constraints>
+                        </datePicker>
                         <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P29-wh-uuD">
-                            <rect key="frame" x="250" y="5" width="50" height="50"/>
+                            <rect key="frame" x="324" y="5" width="50" height="50"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wbp-Lh-30b">
                                     <rect key="frame" x="10" y="10" width="30" height="30"/>
@@ -110,34 +140,6 @@
                                 <constraint firstAttribute="width" constant="50" id="vpz-Oq-Ih9"/>
                             </constraints>
                         </view>
-                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YtE-EL-U5O">
-                            <rect key="frame" x="325" y="14.5" width="51" height="31"/>
-                        </switch>
-                    </subviews>
-                    <constraints>
-                        <constraint firstItem="YtE-EL-U5O" firstAttribute="leading" secondItem="P29-wh-uuD" secondAttribute="trailing" constant="25" id="jnf-0j-Xqz"/>
-                        <constraint firstAttribute="height" constant="60" id="t0e-Sv-rSK"/>
-                    </constraints>
-                </stackView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tMv-p2-ScS" userLabel="Seperator">
-                    <rect key="frame" x="5" y="245" width="404" height="1"/>
-                    <color key="backgroundColor" systemColor="separatorColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="1" id="YWe-ib-wMF"/>
-                    </constraints>
-                </view>
-                <stackView opaque="NO" contentMode="center" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Kzn-P1-KJd">
-                    <rect key="frame" x="20" y="251" width="374" height="60"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S0Y-yR-Ykj">
-                            <rect key="frame" x="0.0" y="0.0" width="37.5" height="60"/>
-                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="30" translatesAutoresizingMaskIntoConstraints="NO" id="mXr-Fm-g0l">
-                            <rect key="frame" x="54" y="0.0" width="320" height="60"/>
-                        </datePicker>
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="9Y8-9m-qjt"/>

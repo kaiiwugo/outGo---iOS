@@ -46,7 +46,9 @@ class LoginViewController: UIViewController {
             }
         }
     }
+    
     func signIn(){
+        print("Sign in")
         let db = Firestore.firestore()
         let authID = Auth.auth().currentUser
         let userID = String(authID!.uid)
@@ -54,15 +56,19 @@ class LoginViewController: UIViewController {
         userDocument.getDocuments(completion: { snapshot, err in
             let docs = snapshot?.documents
             docs?.forEach({ document in
+                print("found a doc")
                 let userName = document.get("userName") as! String
                 FriendingHandler.shared.getUser(friendName: userName) { user in
-                    let groupName = user.group.groupName
-                    let groupID = user.group.groupID
-                    UserDefaults.standard.set(userName, forKey: "currentUser")
-                    UserDefaults.standard.set(groupName, forKey: "groupName")
-                    UserDefaults.standard.set(groupID, forKey: "groupID")
+                    DispatchQueue.main.async {
+                        let groupName = user.group.groupName
+                        let groupID = user.group.groupID
+                        UserDefaults.standard.set(userName, forKey: "currentUser")
+                        UserDefaults.standard.set(groupName, forKey: "groupName")
+                        UserDefaults.standard.set(groupID, forKey: "groupID")
+                        print(UserDefaults.standard.string(forKey: "currentUser"))
+                        self.logIn()
+                    }
                 }
-                self.logIn()
             })
         })
     }

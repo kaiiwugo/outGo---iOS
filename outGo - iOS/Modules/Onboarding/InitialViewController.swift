@@ -13,6 +13,7 @@ class InitialViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var logoImage: UIImageView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +24,7 @@ class InitialViewController: UIViewController {
         loginButton.alpha = 0
         signupButton.alpha = 0
         logoImage.alpha = 0
-        addUserListener()
+        autoLog()
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Medium", size: 25)!, .foregroundColor: UIColor.white]
         loginButton.layer.borderWidth = 1
         loginButton.layer.borderColor = UIColor.separator.cgColor
@@ -44,19 +45,16 @@ class InitialViewController: UIViewController {
         show(signupVC, sender: self)
     }
     
-    func addUserListener() {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            if user == nil {
-                //not logged in
-                self.loginButton.alpha = 1
-                self.signupButton.alpha = 1
-                self.logoImage.alpha = 1
-                
-            } else {
-                // we are Logged In to Firebase
-                let vc = CustomTabBarViewController()
-                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(vc)
-            }
+    func autoLog(){
+        if Auth.auth().currentUser != nil {
+            let vc = CustomTabBarViewController()
+            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(vc)
+         }
+        else {
+            self.loginButton.alpha = 1
+            self.signupButton.alpha = 1
+            self.logoImage.alpha = 1
         }
     }
+ 
 }

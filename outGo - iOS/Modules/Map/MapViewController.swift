@@ -32,6 +32,7 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(loadAllEvents(notification:)), name: NSNotification.Name(rawValue: "loadAllEvents"), object: nil)
+        locationServices()
         setNavigationBars()
         setPanel()
         setMap()
@@ -142,14 +143,25 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
         mapView.delegate = self
         mapView.showAnnotations(mapView.annotations, animated: true)
         self.mapView.showsUserLocation = true;
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest //more stress on battery
-        manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
         if MapPinHandler.shared.daytime() == true {
             if #available(iOS 13.0, *) {
                 overrideUserInterfaceStyle = .light
             }
+        }
+    }
+    
+    func locationServices(){
+        
+        self.manager.delegate = self
+        self.manager.desiredAccuracy = kCLLocationAccuracyBest //more stress on battery
+        self.manager.requestWhenInUseAuthorization()
+        self.manager.requestAlwaysAuthorization()
+        self.manager.startUpdatingLocation()
+        self.manager.allowsBackgroundLocationUpdates = true
+        self.manager.startMonitoringVisits()
+        self.manager.startMonitoringSignificantLocationChanges()
+        if self.manager.authorizationStatus == .denied {
+            self.locationServiceAlert()
         }
     }
     //Button Functions
@@ -177,13 +189,14 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
                                           radius: distance, identifier: identifier)
             // Register the region.
             region.notifyOnEntry = true
-            region.notifyOnExit = false
+            region.notifyOnExit = true
             manager.startMonitoring(for: region)
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
         if let region = region as? CLCircularRegion {
+
             let eventID = region.identifier
             if state == .inside {
                 addAttendence(eventID: eventID)
@@ -208,6 +221,18 @@ class MapViewController: UIViewController, FloatingPanelControllerDelegate, UICo
             attendedEvent.remove(at: index)
             MapPinHandler.shared.removeAttendance(postID: eventID, collection: .events)
         }
+    }
+    
+    func locationServiceAlert(){
+        let alert = UIAlertController(title: "Location Services", message: "Must enable location in order to load events near you", preferredStyle: .alert)
+        let settingsAction = UIAlertAction(title: "Go to settings", style: .default) { (_) -> Void in
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in })
+            }
+        }
+        alert.addAction(settingsAction)
+        present(alert, animated: true)
     }
 
 }

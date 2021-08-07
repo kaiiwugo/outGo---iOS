@@ -13,12 +13,12 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var profileImageButton: UIButton!
     @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet weak var buttonsView: UIView!
     @IBOutlet weak var badgeView: UIView!
     @IBOutlet weak var badgeImage: UIImageView!
     @IBOutlet weak var myCircleButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var collectionTitleLabel: UILabel!
     @IBOutlet weak var myEventsCollectionView: UICollectionView!
     static let shared = ProfileViewController()
     var myEvents = [Event]()
@@ -40,10 +40,11 @@ class ProfileViewController: UIViewController {
     func setNavigation(){
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "RedFade"), for: .default)
         self.title = "Circle"
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 20)!, .foregroundColor: UIColor.white]
+        //buttons
         let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
                 navigationItem.backBarButtonItem = backBarButtonItem
-        self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(logoutButton))
         self.navigationItem.leftBarButtonItem?.tintColor = .white
     }
@@ -58,13 +59,13 @@ class ProfileViewController: UIViewController {
         addButton.layer.cornerRadius = addButton.frame.width/2
         addButton.clipsToBounds = true
         addButton.tintColor = .white
+        collectionTitleLabel.layer.cornerRadius = 5
+        collectionTitleLabel.clipsToBounds = true
     }
     
     func setProfile(){
         profileImageButton.layer.cornerRadius = profileImageButton.frame.width/2
         profileImageButton.clipsToBounds = true
-        buttonsView.layer.cornerRadius = 10
-        buttonsView.clipsToBounds = true
         badgeView.alpha = 0
         userNameLabel.text = currentUser
         if groupName != "" {

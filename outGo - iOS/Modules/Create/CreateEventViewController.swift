@@ -43,7 +43,6 @@ class CreateEventViewController: UIViewController, UITextViewDelegate {
     
     let currentUser = UserDefaults.standard.string(forKey: "currentUser")
     let groupName = UserDefaults.standard.string(forKey: "groupName")
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
